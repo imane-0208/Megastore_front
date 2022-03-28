@@ -1,0 +1,25 @@
+query getAllCategories {
+  getAllCategories {
+    image
+    description
+    name
+    id
+    productIds {
+      id
+      name
+      description
+      image
+      price
+      storeId {
+        id
+        name
+        address
+        userId {
+          id
+          firstName
+          lastName
+        }
+      }
+    }
+  }
+}
