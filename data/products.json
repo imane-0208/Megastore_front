@@ -1,0 +1,100 @@
+[
+  {
+    "id": 1,
+    "uuid": "casque-tcl-bluetooth-271",
+    "name": "TCL headphones ELIT400BT",
+    "store": "cetelec shop",
+    "price": "649",
+    "brand": "TCL",
+    "status": "En Stock",
+    "SKU": "GS10111I1G3",
+    "mainCategory": "Téléphone & Tablette",
+    "category": "Accessoires téléphone",
+    "subCategory": "Ecouteurs Bluetooth",
+    "rating": 0,
+    "reviews": 4,
+    "images": [
+      "/images/products/casque-tcl-bluetooth-271.jpg",
+      "/images/products/casque-tcl-bluetooth-271_2.jpg",
+      "/images/products/casque-tcl-bluetooth-271_3.jpg"
+    ],
+    "colors": [
+      {
+        "name": "White",
+        "class": "bg-white",
+        "selectedClass": "ring-blue-600"
+      },
+      {
+        "name": "Gray",
+        "class": "bg-gray-200",
+        "selectedClass": "ring-blue-600"
+      },
+      {
+        "name": "Black",
+        "class": "bg-gray-500",
+        "selectedClass": "ring-blue-600"
+      }
+    ],
+    "description": [
+      "Hi-Res audio",
+      "40mm speaker drivers",
+      "30 hours play time",
+      "15 mins fast charging for 6 hours play",
+      "Precise detail and balanced sound",
+      "Memory foam cushion",
+      "Slim fold design",
+      "Additional audio cable",
+      "Clear calls echo cancellation",
+      "Integrated music and call control"
+    ]
+  },
+  {
+    "id": 2,
+    "uuid": "casque-tcl-bluetooth-272",
+    "name": "TCL headphones ELIT400BT",
+    "store": "cetelec shop",
+    "price": "649",
+    "brand": "TCL",
+    "status": "En Stock",
+    "SKU": "GS10111I1G3",
+    "mainCategory": "Téléphone & Tablette",
+    "category": "Accessoires téléphone",
+    "subCategory": "Ecouteurs Bluetooth",
+    "rating": 0,
+    "reviews": 4,
+    "images": [
+      "/images/products/casque-tcl-bluetooth-271.jpg",
+      "/images/products/casque-tcl-bluetooth-271_2.jpg",
+      "/images/products/casque-tcl-bluetooth-271_3.jpg"
+    ],
+    "colors": [
+      {
+        "name": "White",
+        "class": "bg-white",
+        "selectedClass": "ring-blue-600"
+      },
+      {
+        "name": "Gray",
+        "class": "bg-gray-200",
+        "selectedClass": "ring-blue-600"
+      },
+      {
+        "name": "Black",
+        "class": "bg-gray-900",
+        "selectedClass": "ring-blue-600"
+      }
+    ],
+    "description": [
+      "Hi-Res audio",
+      "40mm speaker drivers",
+      "30 hours play time",
+      "15 mins fast charging for 6 hours play",
+      "Precise detail and balanced sound",
+      "Memory foam cushion",
+      "Slim fold design",
+      "Additional audio cable",
+      "Clear calls echo cancellation",
+      "Integrated music and call control"
+    ]
+  }
+]

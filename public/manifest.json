@@ -1,0 +1,23 @@
+{
+  "name": "BabelMdina",
+  "short_name": "BabelMdina",
+  "description": "Babel Mdina - b'Clique souk ytle3 lik, fin ma kenti!",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "image/png"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}
