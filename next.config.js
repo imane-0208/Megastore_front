@@ -12,6 +12,9 @@ const settings = {
   // devIndicators: {
   //   autoPrerender: false,
   // },
+  images: {
+    domains: ['assets.example.com','i.ibb.co'],
+  },
   pwa: {
     dest: 'public',
     // mode: 'production',

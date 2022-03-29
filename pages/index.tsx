@@ -8,7 +8,6 @@ import {
 import { useQuery } from "@apollo/client";
 import apolloClient from "@/graphql/apollo";
 import { HomeComp } from "@/components/Home";
-import { Product } from "@/components/Product";
 
 const Home: NextPage<GetAllProductsQueryVariables> = ({
   products,

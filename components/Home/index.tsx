@@ -2,7 +2,9 @@ import { type } from "os";
 import React from "react";
 import { ProductComp } from "../Product";
 
-type products = {};
+type products = {
+  
+};
 type categories = {};
 
 export const HomeComp = ({
@@ -36,7 +38,7 @@ export const HomeComp = ({
         </div>
         <div className="mt-10 grid lg:grid-cols-2 gap-x-8 gap-y-8 items-center">
           {(products || []).map((product: products) => (
-            <Product key={product.id} product={product} />
+            <ProductComp key={product.id} product={product} />
           ))}
         </div>
           <h3>By category</h3>
