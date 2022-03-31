@@ -1,6 +1,6 @@
 module.exports = {
   content: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
-  darkMode: "media",
+  darkMode: "class",
   theme: {
     fontFamily: {
       sans: ['"Cairo"', "sans-serif"],

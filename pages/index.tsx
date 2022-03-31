@@ -4,18 +4,27 @@ import {
   GetAllProductsQueryVariables,
   GetAllCategoriesDocument,
   GetAllCategoriesQueryVariables,
+  GetAllBrandsDocument,
+  GetAllBrandsQueryVariables,
 } from "@/graphql/generated/graphql";
-import { useQuery } from "@apollo/client";
 import apolloClient from "@/graphql/apollo";
 import { HomeComp } from "@/components/Home";
+import { LoginPopup } from "@/components/Login";
+import { useState } from "react";
+import { Header } from "@/components/Header";
 
 const Home: NextPage<GetAllProductsQueryVariables> = ({
   products,
   categories,
+  brands,
 }) => {
+  const [loginPopup, setLoginPopup] = useState(false);
+
   return (
     <>
-      <HomeComp products={products} categories={categories} />
+      <Header setLoginPopup={setLoginPopup} />
+      <HomeComp products={products} categories={categories} brands={brands} />
+      {loginPopup && <LoginPopup setLoginPopup={setLoginPopup} />}
     </>
   );
 };
@@ -30,10 +39,15 @@ export const getServerSideProps: GetServerSideProps = async () => {
     query: GetAllCategoriesDocument,
   });
 
+  const { data: BrandData } = await apolloClient.query({
+    query: GetAllBrandsDocument,
+  });
+
   return {
     props: {
       products: ProductData?.getAllProducts,
       categories: CategoryData?.getAllCategories,
+      brands: BrandData?.getAllBrands,
     },
   };
 };

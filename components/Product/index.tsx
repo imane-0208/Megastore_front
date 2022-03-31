@@ -1,11 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
-
-type product = {
-    id: string
-    name: string
-    price: number
-}
+import { product } from '../Home/index'
 
 export const ProductComp = ({product}:{product:product}) => {
   return (
