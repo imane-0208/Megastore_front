@@ -15,23 +15,6 @@ export type Scalars = {
   Float: number;
 };
 
-export type Admin = {
-  __typename?: 'Admin';
-  email?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  lastName?: Maybe<Scalars['String']>;
-  password?: Maybe<Scalars['String']>;
-  token?: Maybe<Scalars['String']>;
-};
-
-export type AdminInput = {
-  email?: InputMaybe<Scalars['String']>;
-  firstName?: InputMaybe<Scalars['String']>;
-  lastName?: InputMaybe<Scalars['String']>;
-  password?: InputMaybe<Scalars['String']>;
-};
-
 export type Brand = {
   __typename?: 'Brand';
   description?: Maybe<Scalars['String']>;
@@ -51,18 +34,6 @@ export type BrandInput = {
 export type BrandProductInput = {
   brandId?: InputMaybe<Scalars['ID']>;
   productIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
-};
-
-export type Cart = {
-  __typename?: 'Cart';
-  id?: Maybe<Scalars['ID']>;
-  orderIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  userId: User;
-};
-
-export type CartInput = {
-  orderIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
-  userId: Scalars['ID'];
 };
 
 export type Category = {
@@ -96,23 +67,18 @@ export type Mutation = {
   __typename?: 'Mutation';
   addBrandToProduct?: Maybe<Product>;
   addCategoryToProduct?: Maybe<Product>;
-  addOrderToOrder?: Maybe<Order>;
+  addProductToBrand?: Maybe<Brand>;
   addProductToCategory?: Maybe<Store>;
   addProductToStore?: Maybe<Store>;
   createBrand?: Maybe<Brand>;
-  createCart?: Maybe<Cart>;
   createCategory?: Maybe<Category>;
-  createOrder?: Maybe<Order>;
   createProduct?: Maybe<Product>;
   createStore?: Maybe<Store>;
   deleteProduct?: Maybe<Product>;
   deleteStore?: Maybe<Store>;
   login?: Maybe<User>;
-  loginAdmin?: Maybe<Admin>;
   register?: Maybe<User>;
-  registerAdmin?: Maybe<Admin>;
   updateCategory?: Maybe<Category>;
-  updateOrder?: Maybe<Order>;
   updateProduct?: Maybe<Product>;
   updateStore?: Maybe<Store>;
   updatebrand?: Maybe<Brand>;
@@ -129,8 +95,8 @@ export type MutationAddCategoryToProductArgs = {
 };
 
 
-export type MutationAddOrderToOrderArgs = {
-  input?: InputMaybe<OrderInput>;
+export type MutationAddProductToBrandArgs = {
+  input?: InputMaybe<BrandProductInput>;
 };
 
 
@@ -149,18 +115,8 @@ export type MutationCreateBrandArgs = {
 };
 
 
-export type MutationCreateCartArgs = {
-  input?: InputMaybe<CartInput>;
-};
-
-
 export type MutationCreateCategoryArgs = {
   input?: InputMaybe<CategoryInput>;
-};
-
-
-export type MutationCreateOrderArgs = {
-  input?: InputMaybe<OrderInput>;
 };
 
 
@@ -189,29 +145,14 @@ export type MutationLoginArgs = {
 };
 
 
-export type MutationLoginAdminArgs = {
-  input?: InputMaybe<LoginInput>;
-};
-
-
 export type MutationRegisterArgs = {
   input?: InputMaybe<UserInput>;
-};
-
-
-export type MutationRegisterAdminArgs = {
-  input?: InputMaybe<AdminInput>;
 };
 
 
 export type MutationUpdateCategoryArgs = {
   id: Scalars['ID'];
   input?: InputMaybe<CategoryInput>;
-};
-
-
-export type MutationUpdateOrderArgs = {
-  input?: InputMaybe<OrderInput>;
 };
 
 
@@ -230,20 +171,6 @@ export type MutationUpdateStoreArgs = {
 export type MutationUpdatebrandArgs = {
   id: Scalars['ID'];
   input?: InputMaybe<BrandInput>;
-};
-
-export type Order = {
-  __typename?: 'Order';
-  id?: Maybe<Scalars['ID']>;
-  productId?: Maybe<Product>;
-  quantity?: Maybe<Scalars['String']>;
-  userId?: Maybe<User>;
-};
-
-export type OrderInput = {
-  productId?: InputMaybe<Scalars['ID']>;
-  quantity?: InputMaybe<Scalars['String']>;
-  userId?: InputMaybe<Scalars['ID']>;
 };
 
 export type Product = {
@@ -277,30 +204,17 @@ export type ProductStoreInput = {
 
 export type Query = {
   __typename?: 'Query';
-  getAdminById?: Maybe<Admin>;
-  getAllAdmins: Array<Maybe<Admin>>;
   getAllBrands?: Maybe<Array<Maybe<Brand>>>;
-  getAllCarts?: Maybe<Array<Maybe<Cart>>>;
   getAllCategories?: Maybe<Array<Maybe<Category>>>;
-  getAllOrders?: Maybe<Array<Maybe<Order>>>;
   getAllProducts?: Maybe<Array<Maybe<Product>>>;
   getAllStores?: Maybe<Array<Maybe<Store>>>;
   getAllUsers?: Maybe<Array<Maybe<User>>>;
   getBrandById?: Maybe<Brand>;
-  getCartById?: Maybe<Cart>;
   getCategoryById?: Maybe<Category>;
-  getLastCartByUserId?: Maybe<Cart>;
-  getLastOrderByUserId?: Maybe<Order>;
-  getOrderById?: Maybe<Order>;
   getProductById?: Maybe<Product>;
   getStoreById?: Maybe<Store>;
   getUserById?: Maybe<User>;
   hello?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryGetAdminByIdArgs = {
-  id: Scalars['ID'];
 };
 
 
@@ -309,27 +223,7 @@ export type QueryGetBrandByIdArgs = {
 };
 
 
-export type QueryGetCartByIdArgs = {
-  id?: InputMaybe<Scalars['ID']>;
-};
-
-
 export type QueryGetCategoryByIdArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryGetLastCartByUserIdArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryGetLastOrderByUserIdArgs = {
-  userId: Scalars['ID'];
-};
-
-
-export type QueryGetOrderByIdArgs = {
   id: Scalars['ID'];
 };
 
