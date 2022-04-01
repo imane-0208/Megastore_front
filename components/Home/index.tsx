@@ -45,12 +45,12 @@ export const HomeComp = ({
       <div className="flex flex-col">
         <div className="flex flex-col justify-center">
           <div className="relative">
-            <Image
+            <img
               className="hidden sm:block w-full"
               src="https://i.ibb.co/HxXSY0j/jason-wang-Nx-Awry-Abt-Iw-unsplash-1-1.png"
               alt="sofa"
             />
-            <Image
+            <img
               className="sm:hidden w-full"
               src="https://i.ibb.co/B6qwqPT/jason-wang-Nx-Awry-Abt-Iw-unsplash-1.png"
               alt="sofa"

@@ -33,9 +33,9 @@ export const Header = ({
         </div>
         <div className=" flex gap-3 ">
           <Link href="/Seller" passHref={true}>
-            <button className="p-2 rounded-full bg-blue-400 px-4">
+            <button className="p-2 rounded-full hover:bg-blue-50 hover:text-blue-500 transition-all bg-blue-500 text-white px-4">
               <span>Became a seller</span>
-              <StoreIcon className=" hover:text-blue-500 transition-all cursor-pointer" />
+              <StoreIcon className=" " />
             </button>
           </Link>
           <button className="">
