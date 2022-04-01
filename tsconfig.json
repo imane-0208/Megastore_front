@@ -27,7 +27,8 @@
       "@/context/*": ["context/*"],
       "@/hooks/*": ["hooks/*"],
       "@/interfaces/*": ["interfaces/*"],
-      "@/app/*": ["app/*"]
+      "@/app/*": ["app/*"],
+      "@/lottie/*": ["public/lottie/*"],
     },
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

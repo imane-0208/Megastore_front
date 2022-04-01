@@ -1,0 +1,10 @@
+mutation CreateStore($input: StoreInput) {
+  createStore(input: $input) {
+    id
+    name
+    address
+    phone
+    description
+    image
+  }
+}
