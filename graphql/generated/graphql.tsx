@@ -423,12 +423,24 @@ export type GetAllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetAllCategoriesQuery = { __typename?: 'Query', getAllCategories?: Array<{ __typename?: 'Category', image?: string | null, description?: string | null, name?: string | null, id?: string | null, productIds?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: string | null, price?: string | null, storeId?: { __typename?: 'Store', id?: string | null, name?: string | null, address?: string | null, userId?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null } | null } | null> | null } | null> | null };
 
+export type GetAllStoresQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllStoresQuery = { __typename?: 'Query', getAllStores?: Array<{ __typename?: 'Store', id?: string | null, name?: string | null, address?: string | null, phone?: string | null, description?: string | null, image?: string | null, userId?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null } | null> | null };
+
 export type GetProductByIdQueryVariables = Exact<{
   getProductByIdId: Scalars['ID'];
 }>;
 
 
 export type GetProductByIdQuery = { __typename?: 'Query', getProductById?: { __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: string | null, price?: string | null, storeId?: { __typename?: 'Store', id?: string | null, name?: string | null, address?: string | null, productIds?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: string | null, price?: string | null } | null> | null } | null } | null };
+
+export type GetStoreByIdQueryVariables = Exact<{
+  getStoreByIdId: Scalars['ID'];
+}>;
+
+
+export type GetStoreByIdQuery = { __typename?: 'Query', getStoreById?: { __typename?: 'Store', id?: string | null, name?: string | null, phone?: string | null, image?: string | null, userId?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null } | null };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -639,6 +651,50 @@ export function useGetAllCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type GetAllCategoriesQueryHookResult = ReturnType<typeof useGetAllCategoriesQuery>;
 export type GetAllCategoriesLazyQueryHookResult = ReturnType<typeof useGetAllCategoriesLazyQuery>;
 export type GetAllCategoriesQueryResult = Apollo.QueryResult<GetAllCategoriesQuery, GetAllCategoriesQueryVariables>;
+export const GetAllStoresDocument = gql`
+    query GetAllStores {
+  getAllStores {
+    id
+    name
+    address
+    phone
+    description
+    image
+    userId {
+      id
+      firstName
+      lastName
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAllStoresQuery__
+ *
+ * To run a query within a React component, call `useGetAllStoresQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllStoresQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllStoresQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllStoresQuery(baseOptions?: Apollo.QueryHookOptions<GetAllStoresQuery, GetAllStoresQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllStoresQuery, GetAllStoresQueryVariables>(GetAllStoresDocument, options);
+      }
+export function useGetAllStoresLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllStoresQuery, GetAllStoresQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllStoresQuery, GetAllStoresQueryVariables>(GetAllStoresDocument, options);
+        }
+export type GetAllStoresQueryHookResult = ReturnType<typeof useGetAllStoresQuery>;
+export type GetAllStoresLazyQueryHookResult = ReturnType<typeof useGetAllStoresLazyQuery>;
+export type GetAllStoresQueryResult = Apollo.QueryResult<GetAllStoresQuery, GetAllStoresQueryVariables>;
 export const GetProductByIdDocument = gql`
     query GetProductById($getProductByIdId: ID!) {
   getProductById(id: $getProductByIdId) {
@@ -690,6 +746,49 @@ export function useGetProductByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetProductByIdQueryHookResult = ReturnType<typeof useGetProductByIdQuery>;
 export type GetProductByIdLazyQueryHookResult = ReturnType<typeof useGetProductByIdLazyQuery>;
 export type GetProductByIdQueryResult = Apollo.QueryResult<GetProductByIdQuery, GetProductByIdQueryVariables>;
+export const GetStoreByIdDocument = gql`
+    query GetStoreById($getStoreByIdId: ID!) {
+  getStoreById(id: $getStoreByIdId) {
+    id
+    name
+    phone
+    image
+    userId {
+      id
+      firstName
+      lastName
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetStoreByIdQuery__
+ *
+ * To run a query within a React component, call `useGetStoreByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetStoreByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetStoreByIdQuery({
+ *   variables: {
+ *      getStoreByIdId: // value for 'getStoreByIdId'
+ *   },
+ * });
+ */
+export function useGetStoreByIdQuery(baseOptions: Apollo.QueryHookOptions<GetStoreByIdQuery, GetStoreByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetStoreByIdQuery, GetStoreByIdQueryVariables>(GetStoreByIdDocument, options);
+      }
+export function useGetStoreByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetStoreByIdQuery, GetStoreByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetStoreByIdQuery, GetStoreByIdQueryVariables>(GetStoreByIdDocument, options);
+        }
+export type GetStoreByIdQueryHookResult = ReturnType<typeof useGetStoreByIdQuery>;
+export type GetStoreByIdLazyQueryHookResult = ReturnType<typeof useGetStoreByIdLazyQuery>;
+export type GetStoreByIdQueryResult = Apollo.QueryResult<GetStoreByIdQuery, GetStoreByIdQueryVariables>;
 export const HelloDocument = gql`
     query Hello {
   hello

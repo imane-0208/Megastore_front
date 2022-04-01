@@ -1,0 +1,13 @@
+query GetStoreById($getStoreByIdId: ID!) {
+  getStoreById(id: $getStoreByIdId) {
+    id
+    name
+    phone
+    image
+    userId {
+      id
+      firstName
+      lastName
+    }
+  }
+}
