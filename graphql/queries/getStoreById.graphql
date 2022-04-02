@@ -9,5 +9,15 @@ query GetStoreById($getStoreByIdId: ID!) {
       firstName
       lastName
     }
+    options {
+      id
+      slider
+      bgColor
+      primaryColor
+      whatsapp
+      ourBrands
+      bestProducts
+      slider_image
+    }
   }
 }

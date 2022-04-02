@@ -14,10 +14,18 @@ import Close from "@mui/icons-material/Close";
 import { HeaderStore } from "@/components/HeaderStore";
 import { PremiumPopupStore } from "@/components/PremiumPopupStore";
 import SaveIcon from "@mui/icons-material/Save";
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { GetStoreByIdDocument } from "@/graphql/generated/graphql";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import {
+  GetStoreByIdDocument,
+  useUpdateOptionsMutation,
+} from "@/graphql/generated/graphql";
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
+import { PopupLoading } from "@/components/PopupLoading";
+import { motion } from "framer-motion";
+import { PrimaryBtn } from "@/components/PrimaryBtn";
+import Link from "next/link";
+import DoneIcon from "@mui/icons-material/Done";
 
 const Store = () => {
   const [slider, setSlider] = useState(false);
@@ -31,8 +39,11 @@ const Store = () => {
   const [popupOption, setPopupOption] = useState(true);
   const [popupPremium, setPopupPremium] = useState(false);
   const [imageSrc, setImageSrc] = useState("https://i.imgur.com/jAXaawT.jpg");
+  const [popupLoading, setPopupLoading] = useState(false);
+  const [saveChanges, setSaveChanges] = useState(false);
 
-
+  const [updateOptions, { loading: updateLoading }] =
+    useUpdateOptionsMutation();
 
   const { query, isReady } = useRouter();
 
@@ -45,17 +56,74 @@ const Store = () => {
   });
 
   const store = data?.getStoreById;
+  
+  
+  
+  useEffect(() => {
+    setSaveChanges(true);
+  }, [slider , bestProducts, brands, bgColor, color, imageSrc]);
+  
+  useEffect(() => {
+    setSaveChanges(false);
+  }, []);
 
+
+  const handleUpdateOptions = async () => {
+    setPopupLoading(true);
+    const { data: updatedData } = await updateOptions({
+      variables: {
+        updateStoreOptionsId: store?.options.id,
+        input: {
+          slider: slider,
+          bgColor: bgColor,
+          primaryColor: color,
+          whatsapp: fab,
+          ourBrands: brands,
+          bestProducts: bestProducts,
+          slider_image: [""],
+          storeId: store?.id,
+        },
+      },
+    });
+    console.log(updatedData);
+    setPopupLoading(false);
+    setSaveChanges(false);
+  };
 
   useEffect(() => {
-    console.log(storeId[0]);
-    console.log(data);
-  });
+    if (store?.options.bgColor) {
+      setBgColor(store?.options.bgColor);
+    }
+    if (store?.options.primaryColor) {
+      setColor(store?.options.primaryColor);
+    }
+
+    if (store?.options.slider) {
+      setSlider(store?.options.slider);
+    }
+
+    if (store?.options.bestProducts) {
+      setBestProducts(store?.options.bestProducts);
+    }
+
+    if (store?.options.ourBrands) {
+      setBrands(store?.options.ourBrands);
+    }
+  }, [store]);
+
+  //ctrl + s to save changes
+  const handleSaveChangesKeyboard = (e: any) => {
+    e.preventDefault();
+    if (e.ctrlKey && e.keyCode === 83) {
+      handleUpdateOptions();
+    }
+  };
 
 
 
   return (
     <div
+      onKeyDown={handleSaveChangesKeyboard}
       style={{
         backgroundColor: bgColor,
       }}
@@ -63,16 +131,24 @@ const Store = () => {
     >
       <div className="fixed flex flex-col top-2 right-2">
         <div className="flex justify-end gap-2 w-full">
-          <div className="rounded-full p-2 cursor-pointer bg-gray-100 hover:bg-green-200 w-fit h-fit">
+          <PrimaryBtn
+            onClick={() => {
+              handleUpdateOptions();
+            }}
+          >
             <span>Save</span>
             &nbsp;
+            {saveChanges ? 
             <SaveIcon />
-          </div>
-          <div className="rounded-full p-2 cursor-pointer bg-gray-100 hover:bg-red-200 w-fit h-fit">
-            <span>View</span>
-            &nbsp;
-            <RemoveRedEyeIcon />
-          </div>
+            : <DoneIcon />}
+          </PrimaryBtn>
+          <Link href={`/store/${storeId[0]}`} passHref>
+            <PrimaryBtn className="hover:bg-red-200">
+              <span>View</span>
+              &nbsp;
+              <RemoveRedEyeIcon />
+            </PrimaryBtn>
+          </Link>
           <div
             onClick={() => setOptions(!options)}
             className="rounded-full p-2 cursor-pointer bg-gray-100 hover:bg-blue-200 w-fit h-fit"
@@ -123,7 +199,9 @@ const Store = () => {
           </>
         )}
       </div>
-      <h1 className="text-4xl my-8">Personalise Your store {store?.userId?.lastName}</h1>
+      <h1 className="text-4xl my-8">
+        Personalise Your store {store?.userId?.lastName}
+      </h1>
       <HeaderStore store={store} />
       <SliderStore setSlider={setSlider} slider={slider} />
       <BestProductsStore
@@ -131,6 +209,7 @@ const Store = () => {
         bestProducts={bestProducts}
       />
       <AllProductsStore />
+      {popupLoading && <PopupLoading setPopupLoading={setPopupLoading} />}
       <BrandStore setBrands={setBrands} brands={brands} />
       <FooterStore />
       {popupPremium && <PremiumPopupStore setPopupPremium={setPopupPremium} />}

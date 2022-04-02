@@ -1,0 +1,13 @@
+mutation UpdateOptions($input: StoreOptionsInput, $updateStoreOptionsId: ID!) {
+  updateStoreOptions(input: $input, id: $updateStoreOptionsId) {
+    id
+    slider
+    slider_image
+    bestProducts
+    ourBrands
+    whatsapp
+    primaryColor
+    bgColor
+    storeId
+  }
+}

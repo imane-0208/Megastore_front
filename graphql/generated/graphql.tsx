@@ -99,14 +99,17 @@ export type Mutation = {
   addOrderToOrder?: Maybe<Order>;
   addProductToCategory?: Maybe<Store>;
   addProductToStore?: Maybe<Store>;
+  addStoreOptionToStore?: Maybe<StoreOptions>;
   createBrand?: Maybe<Brand>;
   createCart?: Maybe<Cart>;
   createCategory?: Maybe<Category>;
   createOrder?: Maybe<Order>;
   createProduct?: Maybe<Product>;
   createStore?: Maybe<Store>;
+  createStoreOptions?: Maybe<StoreOptions>;
   deleteProduct?: Maybe<Product>;
   deleteStore?: Maybe<Store>;
+  deleteStoreOptions?: Maybe<StoreOptions>;
   login?: Maybe<User>;
   loginAdmin?: Maybe<Admin>;
   register?: Maybe<User>;
@@ -115,6 +118,7 @@ export type Mutation = {
   updateOrder?: Maybe<Order>;
   updateProduct?: Maybe<Product>;
   updateStore?: Maybe<Store>;
+  updateStoreOptions?: Maybe<StoreOptions>;
   updatebrand?: Maybe<Brand>;
 };
 
@@ -141,6 +145,11 @@ export type MutationAddProductToCategoryArgs = {
 
 export type MutationAddProductToStoreArgs = {
   input?: InputMaybe<ProductStoreInput>;
+};
+
+
+export type MutationAddStoreOptionToStoreArgs = {
+  input?: InputMaybe<AddOptionToStore>;
 };
 
 
@@ -174,12 +183,22 @@ export type MutationCreateStoreArgs = {
 };
 
 
+export type MutationCreateStoreOptionsArgs = {
+  input?: InputMaybe<StoreOptionsInput>;
+};
+
+
 export type MutationDeleteProductArgs = {
   id: Scalars['ID'];
 };
 
 
 export type MutationDeleteStoreArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteStoreOptionsArgs = {
   id: Scalars['ID'];
 };
 
@@ -224,6 +243,12 @@ export type MutationUpdateProductArgs = {
 export type MutationUpdateStoreArgs = {
   id: Scalars['ID'];
   input?: InputMaybe<StoreInput>;
+};
+
+
+export type MutationUpdateStoreOptionsArgs = {
+  id: Scalars['ID'];
+  input?: InputMaybe<StoreOptionsInput>;
 };
 
 
@@ -284,6 +309,7 @@ export type Query = {
   getAllCategories?: Maybe<Array<Maybe<Category>>>;
   getAllOrders?: Maybe<Array<Maybe<Order>>>;
   getAllProducts?: Maybe<Array<Maybe<Product>>>;
+  getAllStoreOptions?: Maybe<Array<Maybe<StoreOptions>>>;
   getAllStores?: Maybe<Array<Maybe<Store>>>;
   getAllUsers?: Maybe<Array<Maybe<User>>>;
   getBrandById?: Maybe<Brand>;
@@ -294,6 +320,8 @@ export type Query = {
   getOrderById?: Maybe<Order>;
   getProductById?: Maybe<Product>;
   getStoreById?: Maybe<Store>;
+  getStoreOptionsById?: Maybe<StoreOptions>;
+  getStoreOptionsByStoreId?: Maybe<StoreOptions>;
   getUserById?: Maybe<User>;
   hello?: Maybe<Scalars['String']>;
 };
@@ -344,6 +372,16 @@ export type QueryGetStoreByIdArgs = {
 };
 
 
+export type QueryGetStoreOptionsByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetStoreOptionsByStoreIdArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type QueryGetUserByIdArgs = {
   id: Scalars['ID'];
 };
@@ -360,6 +398,7 @@ export type Store = {
   id?: Maybe<Scalars['ID']>;
   image?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  options?: Maybe<StoreOptions>;
   phone?: Maybe<Scalars['String']>;
   productIds?: Maybe<Array<Maybe<Product>>>;
   userId?: Maybe<User>;
@@ -373,6 +412,30 @@ export type StoreInput = {
   phone?: InputMaybe<Scalars['String']>;
   productIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   userId?: InputMaybe<Scalars['ID']>;
+};
+
+export type StoreOptions = {
+  __typename?: 'StoreOptions';
+  bestProducts?: Maybe<Scalars['Boolean']>;
+  bgColor?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  ourBrands?: Maybe<Scalars['Boolean']>;
+  primaryColor?: Maybe<Scalars['String']>;
+  slider?: Maybe<Scalars['Boolean']>;
+  slider_image?: Maybe<Array<Maybe<Scalars['String']>>>;
+  storeId?: Maybe<Scalars['String']>;
+  whatsapp?: Maybe<Scalars['Boolean']>;
+};
+
+export type StoreOptionsInput = {
+  bestProducts?: InputMaybe<Scalars['Boolean']>;
+  bgColor?: InputMaybe<Scalars['String']>;
+  ourBrands?: InputMaybe<Scalars['Boolean']>;
+  primaryColor?: InputMaybe<Scalars['String']>;
+  slider?: InputMaybe<Scalars['Boolean']>;
+  slider_image?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  storeId?: InputMaybe<Scalars['String']>;
+  whatsapp?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type User = {
@@ -394,6 +457,11 @@ export type UserInput = {
   role?: InputMaybe<Role>;
 };
 
+export type AddOptionToStore = {
+  optionId?: InputMaybe<Scalars['String']>;
+  storeId?: InputMaybe<Scalars['String']>;
+};
+
 export type CreateStoreMutationVariables = Exact<{
   input?: InputMaybe<StoreInput>;
 }>;
@@ -407,6 +475,14 @@ export type LoginMutationVariables = Exact<{
 
 
 export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null, email?: string | null, role?: Role | null, token?: string | null } | null };
+
+export type UpdateOptionsMutationVariables = Exact<{
+  input?: InputMaybe<StoreOptionsInput>;
+  updateStoreOptionsId: Scalars['ID'];
+}>;
+
+
+export type UpdateOptionsMutation = { __typename?: 'Mutation', updateStoreOptions?: { __typename?: 'StoreOptions', id?: string | null, slider?: boolean | null, slider_image?: Array<string | null> | null, bestProducts?: boolean | null, ourBrands?: boolean | null, whatsapp?: boolean | null, primaryColor?: string | null, bgColor?: string | null, storeId?: string | null } | null };
 
 export type GetAllProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -440,7 +516,7 @@ export type GetStoreByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetStoreByIdQuery = { __typename?: 'Query', getStoreById?: { __typename?: 'Store', id?: string | null, name?: string | null, phone?: string | null, image?: string | null, userId?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null } | null };
+export type GetStoreByIdQuery = { __typename?: 'Query', getStoreById?: { __typename?: 'Store', id?: string | null, name?: string | null, phone?: string | null, image?: string | null, userId?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null, options?: { __typename?: 'StoreOptions', id?: string | null, slider?: boolean | null, bgColor?: string | null, primaryColor?: string | null, whatsapp?: boolean | null, ourBrands?: boolean | null, bestProducts?: boolean | null, slider_image?: Array<string | null> | null } | null } | null };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -524,6 +600,48 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const UpdateOptionsDocument = gql`
+    mutation UpdateOptions($input: StoreOptionsInput, $updateStoreOptionsId: ID!) {
+  updateStoreOptions(input: $input, id: $updateStoreOptionsId) {
+    id
+    slider
+    slider_image
+    bestProducts
+    ourBrands
+    whatsapp
+    primaryColor
+    bgColor
+    storeId
+  }
+}
+    `;
+export type UpdateOptionsMutationFn = Apollo.MutationFunction<UpdateOptionsMutation, UpdateOptionsMutationVariables>;
+
+/**
+ * __useUpdateOptionsMutation__
+ *
+ * To run a mutation, you first call `useUpdateOptionsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateOptionsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateOptionsMutation, { data, loading, error }] = useUpdateOptionsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *      updateStoreOptionsId: // value for 'updateStoreOptionsId'
+ *   },
+ * });
+ */
+export function useUpdateOptionsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateOptionsMutation, UpdateOptionsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateOptionsMutation, UpdateOptionsMutationVariables>(UpdateOptionsDocument, options);
+      }
+export type UpdateOptionsMutationHookResult = ReturnType<typeof useUpdateOptionsMutation>;
+export type UpdateOptionsMutationResult = Apollo.MutationResult<UpdateOptionsMutation>;
+export type UpdateOptionsMutationOptions = Apollo.BaseMutationOptions<UpdateOptionsMutation, UpdateOptionsMutationVariables>;
 export const GetAllProductsDocument = gql`
     query GetAllProducts {
   getAllProducts {
@@ -757,6 +875,16 @@ export const GetStoreByIdDocument = gql`
       id
       firstName
       lastName
+    }
+    options {
+      id
+      slider
+      bgColor
+      primaryColor
+      whatsapp
+      ourBrands
+      bestProducts
+      slider_image
     }
   }
 }
