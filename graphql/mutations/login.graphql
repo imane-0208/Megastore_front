@@ -6,5 +6,8 @@ mutation Login($input: LoginInput) {
     email
     role
     token
+    store {
+      id
+    }
   }
 }

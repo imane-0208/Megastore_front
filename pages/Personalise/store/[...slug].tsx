@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import BackupIcon from "@mui/icons-material/Backup";
 import Fab from "@mui/material/Fab";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import { FooterStore } from "@/components/FooterStore";
+import FooterStore from "@/components/FooterStore";
 import { BrandStore } from "@/components/BrandStore";
 import { AllProductsStore } from "@/components/AllProductsStore";
 import { BestProductsStore } from "@/components/BestProductsStore";
 import { SliderStore } from "@/components/SliderStore";
-import { PopupStore } from "@/components/PopupStore";
+import { PopupStore } from "@/components/PopupStoreEdit";
 import StyleIcon from "@mui/icons-material/Style";
 import Close from "@mui/icons-material/Close";
 import { HeaderStore } from "@/components/HeaderStore";
@@ -17,6 +17,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import {
   GetStoreByIdDocument,
+  useCreateStoreOptionsMutation,
   useUpdateOptionsMutation,
 } from "@/graphql/generated/graphql";
 import { useRouter } from "next/router";
@@ -36,14 +37,18 @@ const Store = () => {
   const [color, setColor] = useState("#0000ff");
   const [popup, setPopup] = useState(false);
   const [options, setOptions] = useState(false);
-  const [popupOption, setPopupOption] = useState(true);
+  const [popupOption, setPopupOption] = useState(false);
   const [popupPremium, setPopupPremium] = useState(false);
   const [imageSrc, setImageSrc] = useState("https://i.imgur.com/jAXaawT.jpg");
   const [popupLoading, setPopupLoading] = useState(false);
   const [saveChanges, setSaveChanges] = useState(false);
+  const [sliderImages, setSliderImages] = useState([""]);
 
   const [updateOptions, { loading: updateLoading }] =
     useUpdateOptionsMutation();
+
+  const [createOptions, { loading: createLoading }] =
+    useCreateStoreOptionsMutation();
 
   const { query, isReady } = useRouter();
 
@@ -56,59 +61,94 @@ const Store = () => {
   });
 
   const store = data?.getStoreById;
-  
-  
-  
+
   useEffect(() => {
     setSaveChanges(true);
-  }, [slider , bestProducts, brands, bgColor, color, imageSrc]);
-  
+  }, [slider, bestProducts, brands, bgColor, color, imageSrc, popupOption]);
+
   useEffect(() => {
     setSaveChanges(false);
   }, []);
 
-
   const handleUpdateOptions = async () => {
     setPopupLoading(true);
-    const { data: updatedData } = await updateOptions({
-      variables: {
-        updateStoreOptionsId: store?.options.id,
-        input: {
-          slider: slider,
-          bgColor: bgColor,
-          primaryColor: color,
-          whatsapp: fab,
-          ourBrands: brands,
-          bestProducts: bestProducts,
-          slider_image: [""],
-          storeId: store?.id,
+
+    if (store?.options?.id) {
+      const { data: updatedData } = await updateOptions({
+        variables: {
+          updateStoreOptionsId: store?.options.id,
+          input: {
+            slider: slider,
+            bgColor: bgColor,
+            primaryColor: color,
+            whatsapp: fab,
+            ourBrands: brands,
+            bestProducts: bestProducts,
+            slider_image: sliderImages,
+            storeId: store?.id,
+            popup: popupOption,
+            popupImage: imageSrc,
+          },
         },
-      },
-    });
-    console.log(updatedData);
+      });
+    } else {
+      const { data: createData } = await createOptions({
+        variables: {
+          input: {
+            slider: slider,
+            bgColor: bgColor,
+            primaryColor: color,
+            whatsapp: fab,
+            ourBrands: brands,
+            bestProducts: bestProducts,
+            slider_image: sliderImages,
+            storeId: store?.id,
+            popup: popupOption,
+            popupImage: imageSrc,
+          },
+        },
+      });
+    }
     setPopupLoading(false);
     setSaveChanges(false);
   };
 
   useEffect(() => {
-    if (store?.options.bgColor) {
-      setBgColor(store?.options.bgColor);
+    if (store?.options?.bgColor) {
+      setBgColor(store?.options?.bgColor);
     }
-    if (store?.options.primaryColor) {
-      setColor(store?.options.primaryColor);
-    }
-
-    if (store?.options.slider) {
-      setSlider(store?.options.slider);
+    if (store?.options?.primaryColor) {
+      setColor(store?.options?.primaryColor);
     }
 
-    if (store?.options.bestProducts) {
-      setBestProducts(store?.options.bestProducts);
+    if (store?.options?.slider) {
+      setSlider(store?.options?.slider);
     }
 
-    if (store?.options.ourBrands) {
-      setBrands(store?.options.ourBrands);
+    if (store?.options?.bestProducts) {
+      setBestProducts(store?.options?.bestProducts);
     }
+
+    if (store?.options?.ourBrands) {
+      setBrands(store?.options?.ourBrands);
+    }
+
+    if (store?.options?.whatsapp) {
+      setFab(store?.options?.whatsapp);
+    }
+
+    if (store?.options?.popup) {
+      setPopupOption(store?.options?.popup);
+    }
+
+    if (store?.options?.popupImage) {
+      setImageSrc(store?.options?.popupImage);
+    }
+
+    if (store?.options?.slider_image) {
+      setSliderImages(store?.options?.slider_image);
+    }
+    console.log(store?.options);
   }, [store]);
 
   //ctrl + s to save changes
@@ -118,8 +158,6 @@ const Store = () => {
       handleUpdateOptions();
     }
   };
-
-
 
   return (
     <div
@@ -136,11 +174,12 @@ const Store = () => {
               handleUpdateOptions();
             }}
           >
-            <span>Save</span>
+            <span className="relative">
+              <span className="animate-ping absolute -top-2 -right-8 inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+              Save
+            </span>
             &nbsp;
-            {saveChanges ? 
-            <SaveIcon />
-            : <DoneIcon />}
+            {saveChanges ? <SaveIcon /> : <DoneIcon />}
           </PrimaryBtn>
           <Link href={`/store/${storeId[0]}`} passHref>
             <PrimaryBtn className="hover:bg-red-200">
@@ -203,7 +242,13 @@ const Store = () => {
         Personalise Your store {store?.userId?.lastName}
       </h1>
       <HeaderStore store={store} />
-      <SliderStore setSlider={setSlider} slider={slider} />
+      <SliderStore
+        slider_image={sliderImages}
+        setSliderImages={setSliderImages}
+        setSlider={setSlider}
+        slider={slider}
+        setPopupPremium={setPopupPremium}
+      />
       <BestProductsStore
         setBestProducts={setBestProducts}
         bestProducts={bestProducts}
@@ -211,7 +256,7 @@ const Store = () => {
       <AllProductsStore />
       {popupLoading && <PopupLoading setPopupLoading={setPopupLoading} />}
       <BrandStore setBrands={setBrands} brands={brands} />
-      <FooterStore />
+      <FooterStore primaryColor={color} />
       {popupPremium && <PremiumPopupStore setPopupPremium={setPopupPremium} />}
       {popup && (
         <PopupStore

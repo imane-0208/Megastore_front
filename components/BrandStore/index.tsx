@@ -18,7 +18,7 @@ export const BrandStore: FC<Props> = ({ setBrands, brands }) => {
           onChange={() => setBrands(!brands)}
           name="checked"
           inputProps={{ "aria-label": "secondary checkbox" }}
-          defaultChecked
+          checked={!brands}
         />
       </div>
       <div className="w-full">

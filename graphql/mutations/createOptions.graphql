@@ -1,0 +1,15 @@
+mutation CreateStoreOptions($input: StoreOptionsInput) {
+  createStoreOptions(input: $input) {
+    id
+    slider
+    slider_image
+    bestProducts
+    ourBrands
+    whatsapp
+    popup
+    primaryColor
+    bgColor
+    popupImage
+    storeId
+  }
+}

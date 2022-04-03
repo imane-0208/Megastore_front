@@ -1,11 +1,15 @@
 import { Pagination, Skeleton } from '@mui/material'
 import React from 'react'
+import { PrimaryBtn } from '../PrimaryBtn'
 
 export const AllProductsStore = () => {
   return (
     <div className="p-5 border-black mt-4 border-4 border-dashed rounded-md">
-        <div className="w-full">
+        <div className="w-full flex justify-between">
           <h3 className="text-2xl">All Products</h3>
+          <PrimaryBtn>
+            <span>Manage products</span>
+          </PrimaryBtn>
         </div>
         {Array(3)
           .fill(0)

@@ -100,6 +100,7 @@ export type Mutation = {
   addProductToCategory?: Maybe<Store>;
   addProductToStore?: Maybe<Store>;
   addStoreOptionToStore?: Maybe<StoreOptions>;
+  createAdmin?: Maybe<SubAdmin>;
   createBrand?: Maybe<Brand>;
   createCart?: Maybe<Cart>;
   createCategory?: Maybe<Category>;
@@ -112,8 +113,10 @@ export type Mutation = {
   deleteStoreOptions?: Maybe<StoreOptions>;
   login?: Maybe<User>;
   loginAdmin?: Maybe<Admin>;
+  loginSubAdmin?: Maybe<SubAdmin>;
   register?: Maybe<User>;
   registerAdmin?: Maybe<Admin>;
+  registerSubAdmin?: Maybe<SubAdmin>;
   updateCategory?: Maybe<Category>;
   updateOrder?: Maybe<Order>;
   updateProduct?: Maybe<Product>;
@@ -150,6 +153,11 @@ export type MutationAddProductToStoreArgs = {
 
 export type MutationAddStoreOptionToStoreArgs = {
   input?: InputMaybe<AddOptionToStore>;
+};
+
+
+export type MutationCreateAdminArgs = {
+  input?: InputMaybe<CreateAdminInput>;
 };
 
 
@@ -213,6 +221,11 @@ export type MutationLoginAdminArgs = {
 };
 
 
+export type MutationLoginSubAdminArgs = {
+  input?: InputMaybe<LoginInput>;
+};
+
+
 export type MutationRegisterArgs = {
   input?: InputMaybe<UserInput>;
 };
@@ -220,6 +233,11 @@ export type MutationRegisterArgs = {
 
 export type MutationRegisterAdminArgs = {
   input?: InputMaybe<AdminInput>;
+};
+
+
+export type MutationRegisterSubAdminArgs = {
+  input?: InputMaybe<SubAdminInput>;
 };
 
 
@@ -311,6 +329,7 @@ export type Query = {
   getAllProducts?: Maybe<Array<Maybe<Product>>>;
   getAllStoreOptions?: Maybe<Array<Maybe<StoreOptions>>>;
   getAllStores?: Maybe<Array<Maybe<Store>>>;
+  getAllSubAdmins: Array<Maybe<SubAdmin>>;
   getAllUsers?: Maybe<Array<Maybe<User>>>;
   getBrandById?: Maybe<Brand>;
   getCartById?: Maybe<Cart>;
@@ -322,6 +341,7 @@ export type Query = {
   getStoreById?: Maybe<Store>;
   getStoreOptionsById?: Maybe<StoreOptions>;
   getStoreOptionsByStoreId?: Maybe<StoreOptions>;
+  getSubAdminById?: Maybe<SubAdmin>;
   getUserById?: Maybe<User>;
   hello?: Maybe<Scalars['String']>;
 };
@@ -382,6 +402,11 @@ export type QueryGetStoreOptionsByStoreIdArgs = {
 };
 
 
+export type QueryGetSubAdminByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type QueryGetUserByIdArgs = {
   id: Scalars['ID'];
 };
@@ -420,6 +445,8 @@ export type StoreOptions = {
   bgColor?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   ourBrands?: Maybe<Scalars['Boolean']>;
+  popup?: Maybe<Scalars['Boolean']>;
+  popupImage?: Maybe<Scalars['String']>;
   primaryColor?: Maybe<Scalars['String']>;
   slider?: Maybe<Scalars['Boolean']>;
   slider_image?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -431,11 +458,30 @@ export type StoreOptionsInput = {
   bestProducts?: InputMaybe<Scalars['Boolean']>;
   bgColor?: InputMaybe<Scalars['String']>;
   ourBrands?: InputMaybe<Scalars['Boolean']>;
+  popup?: InputMaybe<Scalars['Boolean']>;
+  popupImage?: InputMaybe<Scalars['String']>;
   primaryColor?: InputMaybe<Scalars['String']>;
   slider?: InputMaybe<Scalars['Boolean']>;
   slider_image?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   storeId?: InputMaybe<Scalars['String']>;
   whatsapp?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type SubAdmin = {
+  __typename?: 'SubAdmin';
+  email?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  lastName?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
+};
+
+export type SubAdminInput = {
+  email?: InputMaybe<Scalars['String']>;
+  firstName?: InputMaybe<Scalars['String']>;
+  lastName?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
 };
 
 export type User = {
@@ -446,6 +492,7 @@ export type User = {
   lastName?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['String']>;
   role?: Maybe<Role>;
+  store?: Maybe<Store>;
   token?: Maybe<Scalars['String']>;
 };
 
@@ -462,6 +509,20 @@ export type AddOptionToStore = {
   storeId?: InputMaybe<Scalars['String']>;
 };
 
+export type CreateAdminInput = {
+  email?: InputMaybe<Scalars['String']>;
+  firstName?: InputMaybe<Scalars['String']>;
+  lastName?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
+};
+
+export type CreateStoreOptionsMutationVariables = Exact<{
+  input?: InputMaybe<StoreOptionsInput>;
+}>;
+
+
+export type CreateStoreOptionsMutation = { __typename?: 'Mutation', createStoreOptions?: { __typename?: 'StoreOptions', id?: string | null, slider?: boolean | null, slider_image?: Array<string | null> | null, bestProducts?: boolean | null, ourBrands?: boolean | null, whatsapp?: boolean | null, popup?: boolean | null, primaryColor?: string | null, bgColor?: string | null, popupImage?: string | null, storeId?: string | null } | null };
+
 export type CreateStoreMutationVariables = Exact<{
   input?: InputMaybe<StoreInput>;
 }>;
@@ -474,7 +535,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null, email?: string | null, role?: Role | null, token?: string | null } | null };
+export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null, email?: string | null, role?: Role | null, token?: string | null, store?: { __typename?: 'Store', id?: string | null } | null } | null };
 
 export type UpdateOptionsMutationVariables = Exact<{
   input?: InputMaybe<StoreOptionsInput>;
@@ -482,7 +543,7 @@ export type UpdateOptionsMutationVariables = Exact<{
 }>;
 
 
-export type UpdateOptionsMutation = { __typename?: 'Mutation', updateStoreOptions?: { __typename?: 'StoreOptions', id?: string | null, slider?: boolean | null, slider_image?: Array<string | null> | null, bestProducts?: boolean | null, ourBrands?: boolean | null, whatsapp?: boolean | null, primaryColor?: string | null, bgColor?: string | null, storeId?: string | null } | null };
+export type UpdateOptionsMutation = { __typename?: 'Mutation', updateStoreOptions?: { __typename?: 'StoreOptions', id?: string | null, slider?: boolean | null, slider_image?: Array<string | null> | null, bestProducts?: boolean | null, ourBrands?: boolean | null, whatsapp?: boolean | null, primaryColor?: string | null, bgColor?: string | null, storeId?: string | null, popup?: boolean | null, popupImage?: string | null } | null };
 
 export type GetAllProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -516,7 +577,7 @@ export type GetStoreByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetStoreByIdQuery = { __typename?: 'Query', getStoreById?: { __typename?: 'Store', id?: string | null, name?: string | null, phone?: string | null, image?: string | null, userId?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null, options?: { __typename?: 'StoreOptions', id?: string | null, slider?: boolean | null, bgColor?: string | null, primaryColor?: string | null, whatsapp?: boolean | null, ourBrands?: boolean | null, bestProducts?: boolean | null, slider_image?: Array<string | null> | null } | null } | null };
+export type GetStoreByIdQuery = { __typename?: 'Query', getStoreById?: { __typename?: 'Store', id?: string | null, name?: string | null, phone?: string | null, image?: string | null, description?: string | null, userId?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null, options?: { __typename?: 'StoreOptions', id?: string | null, slider?: boolean | null, bgColor?: string | null, primaryColor?: string | null, whatsapp?: boolean | null, ourBrands?: boolean | null, bestProducts?: boolean | null, slider_image?: Array<string | null> | null, popup?: boolean | null, popupImage?: string | null } | null, productIds?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: string | null, price?: string | null, categoryIds?: Array<{ __typename?: 'Category', id?: string | null, name?: string | null, description?: string | null } | null> | null } | null> | null } | null };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -524,6 +585,49 @@ export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 export type HelloQuery = { __typename?: 'Query', hello?: string | null };
 
 
+export const CreateStoreOptionsDocument = gql`
+    mutation CreateStoreOptions($input: StoreOptionsInput) {
+  createStoreOptions(input: $input) {
+    id
+    slider
+    slider_image
+    bestProducts
+    ourBrands
+    whatsapp
+    popup
+    primaryColor
+    bgColor
+    popupImage
+    storeId
+  }
+}
+    `;
+export type CreateStoreOptionsMutationFn = Apollo.MutationFunction<CreateStoreOptionsMutation, CreateStoreOptionsMutationVariables>;
+
+/**
+ * __useCreateStoreOptionsMutation__
+ *
+ * To run a mutation, you first call `useCreateStoreOptionsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateStoreOptionsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createStoreOptionsMutation, { data, loading, error }] = useCreateStoreOptionsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateStoreOptionsMutation(baseOptions?: Apollo.MutationHookOptions<CreateStoreOptionsMutation, CreateStoreOptionsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateStoreOptionsMutation, CreateStoreOptionsMutationVariables>(CreateStoreOptionsDocument, options);
+      }
+export type CreateStoreOptionsMutationHookResult = ReturnType<typeof useCreateStoreOptionsMutation>;
+export type CreateStoreOptionsMutationResult = Apollo.MutationResult<CreateStoreOptionsMutation>;
+export type CreateStoreOptionsMutationOptions = Apollo.BaseMutationOptions<CreateStoreOptionsMutation, CreateStoreOptionsMutationVariables>;
 export const CreateStoreDocument = gql`
     mutation CreateStore($input: StoreInput) {
   createStore(input: $input) {
@@ -571,6 +675,9 @@ export const LoginDocument = gql`
     email
     role
     token
+    store {
+      id
+    }
   }
 }
     `;
@@ -612,6 +719,8 @@ export const UpdateOptionsDocument = gql`
     primaryColor
     bgColor
     storeId
+    popup
+    popupImage
   }
 }
     `;
@@ -871,6 +980,7 @@ export const GetStoreByIdDocument = gql`
     name
     phone
     image
+    description
     userId {
       id
       firstName
@@ -885,6 +995,20 @@ export const GetStoreByIdDocument = gql`
       ourBrands
       bestProducts
       slider_image
+      popup
+      popupImage
+    }
+    productIds {
+      id
+      name
+      description
+      image
+      price
+      categoryIds {
+        id
+        name
+        description
+      }
     }
   }
 }

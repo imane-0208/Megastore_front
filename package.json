@@ -18,6 +18,7 @@
     "@mui/icons-material": "^5.5.1",
     "@mui/material": "^5.5.0",
     "@mui/styles": "^5.5.1",
+    "firebase": "^9.6.10",
     "framer-motion": "^6.2.8",
     "graphql": "^16.3.0",
     "lottie-react": "^2.2.1",

@@ -4,6 +4,7 @@ query GetStoreById($getStoreByIdId: ID!) {
     name
     phone
     image
+    description
     userId {
       id
       firstName
@@ -18,6 +19,20 @@ query GetStoreById($getStoreByIdId: ID!) {
       ourBrands
       bestProducts
       slider_image
+      popup
+      popupImage
+    }
+    productIds {
+      id
+      name
+      description
+      image
+      price
+      categoryIds {
+        id
+        name
+        description
+      }
     }
   }
 }

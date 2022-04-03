@@ -9,5 +9,7 @@ mutation UpdateOptions($input: StoreOptionsInput, $updateStoreOptionsId: ID!) {
     primaryColor
     bgColor
     storeId
+    popup
+    popupImage
   }
 }

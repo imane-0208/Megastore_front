@@ -1,8 +1,15 @@
 import Link from 'next/link'
-import React from 'react'
-import { product } from '../Home/index'
+import React, { useEffect } from 'react'
 
-export const ProductComp = ({product}:{product:product}) => {
+export const ProductComp = ({product}) => {
+
+
+    useEffect(() => {
+        console.log(product)
+    }, [product])
+        
+
+
   return (
       <Link href={`/product/${product.id}`} >
         <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col cursor-pointer border-[5px] border-indigo-500 ">
