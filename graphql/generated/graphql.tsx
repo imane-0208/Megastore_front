@@ -56,7 +56,7 @@ export type BrandProductInput = {
 export type Cart = {
   __typename?: 'Cart';
   id?: Maybe<Scalars['ID']>;
-  orderIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  orderIds?: Maybe<Array<Maybe<Order>>>;
   userId: User;
 };
 
@@ -484,6 +484,17 @@ export type SubAdminInput = {
   password?: InputMaybe<Scalars['String']>;
 };
 
+export type Subscription = {
+  __typename?: 'Subscription';
+  productAdded?: Maybe<Product>;
+  productDeleted?: Maybe<Product>;
+  productUpdated?: Maybe<Product>;
+  userAdded?: Maybe<User>;
+  userDeleted?: Maybe<User>;
+  userLoggedIn?: Maybe<User>;
+  userUpdated?: Maybe<User>;
+};
+
 export type User = {
   __typename?: 'User';
   email?: Maybe<Scalars['String']>;
@@ -583,6 +594,16 @@ export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type HelloQuery = { __typename?: 'Query', hello?: string | null };
+
+export type UserLoggedInSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserLoggedInSubscription = { __typename?: 'Subscription', userLoggedIn?: { __typename?: 'User', firstName?: string | null, lastName?: string | null, email?: string | null, store?: { __typename?: 'Store', id?: string | null, name?: string | null } | null } | null };
+
+export type ProductAddedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ProductAddedSubscription = { __typename?: 'Subscription', productAdded?: { __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: string | null, price?: string | null } | null };
 
 
 export const CreateStoreOptionsDocument = gql`
@@ -1073,3 +1094,71 @@ export function useHelloLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Hell
 export type HelloQueryHookResult = ReturnType<typeof useHelloQuery>;
 export type HelloLazyQueryHookResult = ReturnType<typeof useHelloLazyQuery>;
 export type HelloQueryResult = Apollo.QueryResult<HelloQuery, HelloQueryVariables>;
+export const UserLoggedInDocument = gql`
+    subscription UserLoggedIn {
+  userLoggedIn {
+    firstName
+    lastName
+    email
+    store {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useUserLoggedInSubscription__
+ *
+ * To run a query within a React component, call `useUserLoggedInSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useUserLoggedInSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserLoggedInSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUserLoggedInSubscription(baseOptions?: Apollo.SubscriptionHookOptions<UserLoggedInSubscription, UserLoggedInSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<UserLoggedInSubscription, UserLoggedInSubscriptionVariables>(UserLoggedInDocument, options);
+      }
+export type UserLoggedInSubscriptionHookResult = ReturnType<typeof useUserLoggedInSubscription>;
+export type UserLoggedInSubscriptionResult = Apollo.SubscriptionResult<UserLoggedInSubscription>;
+export const ProductAddedDocument = gql`
+    subscription ProductAdded {
+  productAdded {
+    id
+    name
+    description
+    image
+    price
+  }
+}
+    `;
+
+/**
+ * __useProductAddedSubscription__
+ *
+ * To run a query within a React component, call `useProductAddedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useProductAddedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductAddedSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useProductAddedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<ProductAddedSubscription, ProductAddedSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<ProductAddedSubscription, ProductAddedSubscriptionVariables>(ProductAddedDocument, options);
+      }
+export type ProductAddedSubscriptionHookResult = ReturnType<typeof useProductAddedSubscription>;
+export type ProductAddedSubscriptionResult = Apollo.SubscriptionResult<ProductAddedSubscription>;

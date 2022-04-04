@@ -9,15 +9,17 @@ import {
   GetAllBrandsQuery,
   GetAllCategoriesQuery,
   GetAllProductsQuery,
+  useProductAddedSubscription,
+  useUserLoggedInSubscription,
+
 } from "@/graphql/generated/graphql";
 import apolloClient from "@/graphql/apollo";
 import { HomeComp } from "@/components/Home";
 import { LoginPopup } from "@/components/Login";
-import { useState } from "react";
-import  Header from "@/components/Header";
-import {ref , uploadBytesResumable , getDownloadURL} from "@firebase/storage"
+import { useEffect, useState } from "react";
+import Header from "@/components/Header";
+import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage";
 import { storage } from "./../firebase/index.js";
-
 
 export type Props = {
   products: GetAllProductsQuery;
@@ -31,7 +33,7 @@ const Home: NextPage<Props> = ({ products, categories, brands, stores }) => {
   const allInputs = { imgUrl: "" };
   const [imageAsFile, setImageAsFile] = useState(null);
   const [imageAsUrl, setImageAsUrl] = useState(allInputs);
-  const [progress , setProgress] = useState(0);
+  const [progress, setProgress] = useState(0);
 
   const handleImageAsFile = (e: any) => {
     const image = e.target.files[0];
@@ -39,31 +41,40 @@ const Home: NextPage<Props> = ({ products, categories, brands, stores }) => {
   };
 
   const handleFireBaseUpload = (e: any) => {
-    e.preventDefault()
+    e.preventDefault();
     console.log(imageAsFile);
 
-    if(!imageAsFile){
-      return alert('Please select an image')
-    }else{
-      const storageRef = ref(storage , `/files/${imageAsFile?.name}`)
-      const uploadTask = uploadBytesResumable(storageRef, imageAsFile)
+    if (!imageAsFile) {
+      return alert("Please select an image");
+    } else {
+      const storageRef = ref(storage, `/files/${imageAsFile?.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, imageAsFile);
 
-      uploadTask.on('state_changed', (snapshot) => {
-        const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
-        setProgress(prog)
-      },
-      (error) => {
-        console.log(error)
-      }
-      , () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          console.log(url);
-        })
-      })
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const prog = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(prog);
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            console.log(url);
+          });
+        }
+      );
     }
-  }
+  };
 
-
+  const {data: userIsloggedIn, loading: userIsloggedInLoading, error: userIsloggedInError} = useUserLoggedInSubscription({
+    onSubscriptionData: (data) => {
+      console.log({ data: data });
+    }
+  });
 
   return (
     <>
@@ -81,11 +92,6 @@ const Home: NextPage<Props> = ({ products, categories, brands, stores }) => {
           <p>{store?.description}</p>
         </div>
       ))}
-      <form onSubmit={handleFireBaseUpload}>
-        <input type="file" onChange={handleImageAsFile} />
-        <button type="submit">Upload</button>
-        <progress value={progress} max="100" />
-      </form>
     </>
   );
 };

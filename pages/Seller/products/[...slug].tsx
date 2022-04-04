@@ -139,7 +139,7 @@ const Products: NextPage = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
+            {data?.getStoreById?.name}
           </Typography>
         </Toolbar>
       </AppBar>

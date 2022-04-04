@@ -1,0 +1,9 @@
+subscription ProductAdded {
+  productAdded {
+    id
+    name
+    description
+    image
+    price
+  }
+}

@@ -4,7 +4,7 @@ import HomeSlider from "@/components/HomeSlider";
 import { PopupStore } from "@/components/PopupStore";
 import { ProductComp } from "@/components/Product";
 import apolloClient from "@/graphql/apollo";
-import { GetStoreByIdDocument } from "@/graphql/generated/graphql";
+import { GetStoreByIdDocument , useProductAddedSubscription } from "@/graphql/generated/graphql";
 import { useQuery } from "@apollo/client";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
@@ -12,6 +12,8 @@ import React, { useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import * as boxProduct from "@/lottie/boxProduct.json";
 import FooterStore from "@/components/FooterStore";
+import { gql, useSubscription } from "@apollo/client";
+
 
 const Store: NextPage = () => {
   const [popup, setPopup] = useState(false);
@@ -29,6 +31,40 @@ const Store: NextPage = () => {
       getStoreByIdId: storeId[0],
     },
   });
+
+
+  
+  const PRODUCT_SUBSCRIPTION = gql`
+    subscription ProductAdded {
+      productAdded {
+        id
+        name
+        description
+        image
+        price
+      }
+    }
+  `;
+
+  const {
+    data: subscriptionData,
+    loading : subLoading,
+    error : subError,
+  } = useProductAddedSubscription({
+    onSubscriptionData: (data) => {
+      console.log({ data: data });
+    }
+  });
+
+  
+
+  useEffect(() => {
+    if (subscriptionData) {
+      console.log(subscriptionData);
+    }
+  }, [subscriptionData , subError , subLoading]);
+
+
 
   const store = data?.getStoreById;
 

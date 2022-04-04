@@ -1,0 +1,11 @@
+subscription UserLoggedIn {
+  userLoggedIn {
+    firstName
+    lastName
+    email
+    store {
+      id
+      name
+    }
+  }
+}

@@ -9,7 +9,7 @@ type Props = {
   text: string;
 };
 
-const Toaster:FC<Props> = ({ text , setToaster }) => {
+const Toaster:FC<Props> = ({ text , setToaster }) =>  {
 
     // progress bar each 500 ms
     const [progress, setProgress] = React.useState(100);
