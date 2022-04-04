@@ -90,7 +90,7 @@ export const HomeComp = ({
             </div>
           </nav>
           {products?.map((product) => (
-            <ProductComp key={product.id} product={product} />
+            <ProductComp  key={product.id} product={product} />
           ))}
         </div>
         <nav id="store" className="w-full z-30 top-0 px-6 py-1">

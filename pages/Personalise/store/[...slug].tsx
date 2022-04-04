@@ -253,7 +253,7 @@ const Store = () => {
         setBestProducts={setBestProducts}
         bestProducts={bestProducts}
       />
-      <AllProductsStore />
+      <AllProductsStore storeId={store?.id} />
       {popupLoading && <PopupLoading setPopupLoading={setPopupLoading} />}
       <BrandStore setBrands={setBrands} brands={brands} />
       <FooterStore primaryColor={color} />

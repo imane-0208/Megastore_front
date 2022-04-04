@@ -1,7 +1,13 @@
 import Link from 'next/link'
-import React, { useEffect } from 'react'
+import React, { FC, useEffect } from 'react'
+import {Product} from "@/graphql/generated/graphql";
 
-export const ProductComp = ({product}) => {
+type Props = {
+    product: Product;
+    onDashboard?: boolean;
+};
+
+export const ProductComp:FC<Props> = ({product , onDashboard}) => {
 
 
     useEffect(() => {
@@ -11,7 +17,7 @@ export const ProductComp = ({product}) => {
 
 
   return (
-      <Link href={`/product/${product.id}`} >
+      <Link href={!onDashboard ? `/product/${product.id}` : `/Seller/products/edit/${product.id}`} passHref >
         <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col cursor-pointer border-[5px] border-indigo-500 ">
                     <img className="hover:grow hover:shadow-lg" src="https://images.unsplash.com/photo-1555982105-d25af4182e4e?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=400&amp;h=400&amp;q=80" />
                     <div className="pt-3 flex items-center justify-between">
@@ -29,4 +35,8 @@ export const ProductComp = ({product}) => {
       </Link>
 
   )
+}
+
+ProductComp.defaultProps = {
+    onDashboard: false
 }

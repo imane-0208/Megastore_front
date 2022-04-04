@@ -22,7 +22,7 @@ const DashboardProducts: FC<Props> = ({ products }) => {
       </div>
       <div className="flex flex-wrap">
         {(products || [])?.map((product, index) => {
-          return <ProductComp key={index} product={product} />;
+          return <ProductComp onDashboard key={index} product={product} />;
         })}
       </div>
     </>
