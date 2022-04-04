@@ -12,6 +12,7 @@ import { HomeComp } from "@/components/Home";
 import { LoginPopup } from "@/components/Login";
 import { useState } from "react";
 import { Header } from "@/components/Header";
+import { Banner } from "../components";
 
 const Home: NextPage<GetAllProductsQueryVariables> = ({
   products,
@@ -22,6 +23,7 @@ const Home: NextPage<GetAllProductsQueryVariables> = ({
 
   return (
     <>
+      <Banner />
       <Header setLoginPopup={setLoginPopup} />
       <HomeComp products={products} categories={categories} brands={brands} />
       {loginPopup && <LoginPopup setLoginPopup={setLoginPopup} />}

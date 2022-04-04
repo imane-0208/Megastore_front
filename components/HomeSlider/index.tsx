@@ -9,7 +9,7 @@ import "swiper/css/pagination";
 // import required modules
 import { Pagination } from "swiper";
 
-export default function HomeSlider() {
+export function HomeSlider() {
   const pagination = {
     clickable: true,
     renderBullet: function (index:number, className:string) {
