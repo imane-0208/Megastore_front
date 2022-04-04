@@ -1,0 +1,38 @@
+query GetStoreById($getStoreByIdId: ID!) {
+  getStoreById(id: $getStoreByIdId) {
+    id
+    name
+    phone
+    image
+    description
+    userId {
+      id
+      firstName
+      lastName
+    }
+    options {
+      id
+      slider
+      bgColor
+      primaryColor
+      whatsapp
+      ourBrands
+      bestProducts
+      slider_image
+      popup
+      popupImage
+    }
+    productIds {
+      id
+      name
+      description
+      image
+      price
+      categoryIds {
+        id
+        name
+        description
+      }
+    }
+  }
+}

@@ -29,8 +29,9 @@
       "@/interfaces/*": ["interfaces/*"],
       "@/app/*": ["app/*"],
       "@/lottie/*": ["public/lottie/*"],
+      "@/firebase/*": ["firebase/*"],
     },
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "firebase/index.js", "firebase/index.js", "firebase/index.js"],
   "exclude": ["node_modules"]
 }
