@@ -16,9 +16,10 @@ import {
 import apolloClient from "@/graphql/apollo";
 import { HomeComp } from "@/components/Home";
 import { LoginPopup } from "@/components/Login";
-import { useEffect, useState } from "react";
-import Header from "@/components/Header";
-import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage";
+import { useState } from "react";
+import  Header  from "@/components/Header";
+import { Banner } from "../components";
+import {ref , uploadBytesResumable , getDownloadURL} from "@firebase/storage"
 import { storage } from "./../firebase/index.js";
 
 export type Props = {
@@ -78,11 +79,15 @@ const Home: NextPage<Props> = ({ products, categories, brands, stores }) => {
 
   return (
     <>
+      <Banner />
       <Header setLoginPopup={setLoginPopup} />
       {/* @ts-ignore */}
       <HomeComp
-        products={products?.getAllProducts}
-        categories={categories?.getAllCategories}
+      // @ts-ignore
+      products={products?.getAllProducts}
+      // @ts-ignore
+      categories={categories?.getAllCategories}
+      // @ts-ignore
         brands={brands?.getAllBrands}
       />
       {loginPopup && <LoginPopup setLoginPopup={setLoginPopup} />}
