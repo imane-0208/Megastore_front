@@ -1,0 +1,17 @@
+query getAllOrders {
+  getAllOrders {
+    id
+    userId {
+      firstName
+      id
+      lastName
+    }
+    productId {
+      name
+      id
+      image
+      price
+    }
+    quantity
+  }
+}

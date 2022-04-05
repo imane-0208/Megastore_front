@@ -56,7 +56,7 @@ export type BrandProductInput = {
 export type Cart = {
   __typename?: 'Cart';
   id?: Maybe<Scalars['ID']>;
-  orderIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  orderIds?: Maybe<Array<Maybe<Order>>>;
   userId: User;
 };
 
@@ -484,6 +484,17 @@ export type SubAdminInput = {
   password?: InputMaybe<Scalars['String']>;
 };
 
+export type Subscription = {
+  __typename?: 'Subscription';
+  productAdded?: Maybe<Product>;
+  productDeleted?: Maybe<Product>;
+  productUpdated?: Maybe<Product>;
+  userAdded?: Maybe<User>;
+  userDeleted?: Maybe<User>;
+  userLoggedIn?: Maybe<User>;
+  userUpdated?: Maybe<User>;
+};
+
 export type User = {
   __typename?: 'User';
   email?: Maybe<Scalars['String']>;
@@ -545,6 +556,11 @@ export type UpdateOptionsMutationVariables = Exact<{
 
 export type UpdateOptionsMutation = { __typename?: 'Mutation', updateStoreOptions?: { __typename?: 'StoreOptions', id?: string | null, slider?: boolean | null, slider_image?: Array<string | null> | null, bestProducts?: boolean | null, ourBrands?: boolean | null, whatsapp?: boolean | null, primaryColor?: string | null, bgColor?: string | null, storeId?: string | null, popup?: boolean | null, popupImage?: string | null } | null };
 
+export type GetAllCartsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllCartsQuery = { __typename?: 'Query', getAllCarts?: Array<{ __typename?: 'Cart', id?: string | null, userId: { __typename?: 'User', firstName?: string | null, lastName?: string | null }, orderIds?: Array<{ __typename?: 'Order', id?: string | null, quantity?: string | null, userId?: { __typename?: 'User', id?: string | null, lastName?: string | null } | null, productId?: { __typename?: 'Product', id?: string | null, name?: string | null, price?: string | null, image?: string | null } | null } | null> | null } | null> | null };
+
 export type GetAllProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -559,6 +575,11 @@ export type GetAllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetAllCategoriesQuery = { __typename?: 'Query', getAllCategories?: Array<{ __typename?: 'Category', image?: string | null, description?: string | null, name?: string | null, id?: string | null, productIds?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: string | null, price?: string | null, storeId?: { __typename?: 'Store', id?: string | null, name?: string | null, address?: string | null, userId?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null } | null } | null> | null } | null> | null };
+
+export type GetAllOrdersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllOrdersQuery = { __typename?: 'Query', getAllOrders?: Array<{ __typename?: 'Order', id?: string | null, quantity?: string | null, userId?: { __typename?: 'User', firstName?: string | null, id?: string | null, lastName?: string | null } | null, productId?: { __typename?: 'Product', name?: string | null, id?: string | null, image?: string | null, price?: string | null } | null } | null> | null };
 
 export type GetAllStoresQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -751,6 +772,58 @@ export function useUpdateOptionsMutation(baseOptions?: Apollo.MutationHookOption
 export type UpdateOptionsMutationHookResult = ReturnType<typeof useUpdateOptionsMutation>;
 export type UpdateOptionsMutationResult = Apollo.MutationResult<UpdateOptionsMutation>;
 export type UpdateOptionsMutationOptions = Apollo.BaseMutationOptions<UpdateOptionsMutation, UpdateOptionsMutationVariables>;
+export const GetAllCartsDocument = gql`
+    query GetAllCarts {
+  getAllCarts {
+    id
+    userId {
+      firstName
+      lastName
+    }
+    orderIds {
+      id
+      userId {
+        id
+        lastName
+      }
+      productId {
+        id
+        name
+        price
+        image
+      }
+      quantity
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAllCartsQuery__
+ *
+ * To run a query within a React component, call `useGetAllCartsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllCartsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllCartsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllCartsQuery(baseOptions?: Apollo.QueryHookOptions<GetAllCartsQuery, GetAllCartsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllCartsQuery, GetAllCartsQueryVariables>(GetAllCartsDocument, options);
+      }
+export function useGetAllCartsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllCartsQuery, GetAllCartsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllCartsQuery, GetAllCartsQueryVariables>(GetAllCartsDocument, options);
+        }
+export type GetAllCartsQueryHookResult = ReturnType<typeof useGetAllCartsQuery>;
+export type GetAllCartsLazyQueryHookResult = ReturnType<typeof useGetAllCartsLazyQuery>;
+export type GetAllCartsQueryResult = Apollo.QueryResult<GetAllCartsQuery, GetAllCartsQueryVariables>;
 export const GetAllProductsDocument = gql`
     query GetAllProducts {
   getAllProducts {
@@ -878,6 +951,52 @@ export function useGetAllCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type GetAllCategoriesQueryHookResult = ReturnType<typeof useGetAllCategoriesQuery>;
 export type GetAllCategoriesLazyQueryHookResult = ReturnType<typeof useGetAllCategoriesLazyQuery>;
 export type GetAllCategoriesQueryResult = Apollo.QueryResult<GetAllCategoriesQuery, GetAllCategoriesQueryVariables>;
+export const GetAllOrdersDocument = gql`
+    query getAllOrders {
+  getAllOrders {
+    id
+    userId {
+      firstName
+      id
+      lastName
+    }
+    productId {
+      name
+      id
+      image
+      price
+    }
+    quantity
+  }
+}
+    `;
+
+/**
+ * __useGetAllOrdersQuery__
+ *
+ * To run a query within a React component, call `useGetAllOrdersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllOrdersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllOrdersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllOrdersQuery(baseOptions?: Apollo.QueryHookOptions<GetAllOrdersQuery, GetAllOrdersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllOrdersQuery, GetAllOrdersQueryVariables>(GetAllOrdersDocument, options);
+      }
+export function useGetAllOrdersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllOrdersQuery, GetAllOrdersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllOrdersQuery, GetAllOrdersQueryVariables>(GetAllOrdersDocument, options);
+        }
+export type GetAllOrdersQueryHookResult = ReturnType<typeof useGetAllOrdersQuery>;
+export type GetAllOrdersLazyQueryHookResult = ReturnType<typeof useGetAllOrdersLazyQuery>;
+export type GetAllOrdersQueryResult = Apollo.QueryResult<GetAllOrdersQuery, GetAllOrdersQueryVariables>;
 export const GetAllStoresDocument = gql`
     query GetAllStores {
   getAllStores {
