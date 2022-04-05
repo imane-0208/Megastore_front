@@ -1,0 +1,23 @@
+query GetAllCarts {
+  getAllCarts {
+    id
+    userId {
+      firstName
+      lastName
+    }
+    orderIds {
+      id
+      userId {
+        id
+        lastName
+      }
+      productId {
+        id
+        name
+        price
+        image
+      }
+      quantity
+    }
+  }
+}
