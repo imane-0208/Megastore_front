@@ -1,0 +1,15 @@
+query GetAllStores {
+  getAllStores {
+    id
+    name
+    address
+    phone
+    description
+    image
+    userId {
+      id
+      firstName
+      lastName
+    }
+  }
+}
