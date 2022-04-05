@@ -42,7 +42,7 @@ export const LoginPopup = ({
         //set user and token in local storage
         localStorage.setItem("user", JSON.stringify(data.login));
         setToaster(true);
-        Router.push(`/Personalise/store/${data.login.store.id}`);
+        Router.push(`/Personalise/store/${data?.login?.store?.id}`);
 
       }
     } catch (error) {
