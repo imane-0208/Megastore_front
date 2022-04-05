@@ -27,6 +27,7 @@ import { CircularProgress } from "@mui/material";
 import Cards from "@/components/admin/dashbord/cards";
 import Orders from "@/components/admin/dashbord/orders";
 import Carts from "@/components/admin/dashbord/carts";
+import { PrimaryBtn } from "@/components/PrimaryBtn";
 
 const drawerWidth = 240;
 
@@ -129,9 +130,15 @@ const Products: NextPage = () => {
           >
             <MenuIcon />
           </IconButton>
+          <div className="w-full flex justify-between ">
+
           <Typography variant="h6" noWrap component="div">
             Mini variant drawer
           </Typography>
+          <PrimaryBtn className="text-blue-500 hover:bg-blue-200">
+            logout
+          </PrimaryBtn>
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

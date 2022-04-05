@@ -292,12 +292,17 @@ export type OrderInput = {
 export type Product = {
   __typename?: 'Product';
   categoryIds?: Maybe<Array<Maybe<Category>>>;
+  createdAt?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
-  image?: Maybe<Scalars['String']>;
+  image?: Maybe<Array<Maybe<Scalars['String']>>>;
   name?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['String']>;
+  promoPrice?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+  stock?: Maybe<Scalars['String']>;
   storeId?: Maybe<Store>;
+  uuid?: Maybe<Scalars['String']>;
 };
 
 export type ProductCategoryInput = {
@@ -306,10 +311,13 @@ export type ProductCategoryInput = {
 };
 
 export type ProductInput = {
+  categoryIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   description?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
+  image?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   name?: InputMaybe<Scalars['String']>;
   price?: InputMaybe<Scalars['String']>;
+  promoPrice?: InputMaybe<Scalars['String']>;
+  stock?: InputMaybe<Scalars['String']>;
   storeId?: InputMaybe<Scalars['ID']>;
 };
 
@@ -534,6 +542,13 @@ export type CreateStoreOptionsMutationVariables = Exact<{
 
 export type CreateStoreOptionsMutation = { __typename?: 'Mutation', createStoreOptions?: { __typename?: 'StoreOptions', id?: string | null, slider?: boolean | null, slider_image?: Array<string | null> | null, bestProducts?: boolean | null, ourBrands?: boolean | null, whatsapp?: boolean | null, popup?: boolean | null, primaryColor?: string | null, bgColor?: string | null, popupImage?: string | null, storeId?: string | null } | null };
 
+export type CreateProductMutationVariables = Exact<{
+  input?: InputMaybe<ProductInput>;
+}>;
+
+
+export type CreateProductMutation = { __typename?: 'Mutation', createProduct?: { __typename?: 'Product', id?: string | null, uuid?: string | null, name?: string | null, description?: string | null, image?: Array<string | null> | null, price?: string | null, promoPrice?: string | null, stock?: string | null, status?: string | null, createdAt?: string | null } | null };
+
 export type CreateStoreMutationVariables = Exact<{
   input?: InputMaybe<StoreInput>;
 }>;
@@ -559,12 +574,12 @@ export type UpdateOptionsMutation = { __typename?: 'Mutation', updateStoreOption
 export type GetAllCartsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllCartsQuery = { __typename?: 'Query', getAllCarts?: Array<{ __typename?: 'Cart', id?: string | null, userId: { __typename?: 'User', firstName?: string | null, lastName?: string | null }, orderIds?: Array<{ __typename?: 'Order', id?: string | null, quantity?: string | null, userId?: { __typename?: 'User', id?: string | null, lastName?: string | null } | null, productId?: { __typename?: 'Product', id?: string | null, name?: string | null, price?: string | null, image?: string | null } | null } | null> | null } | null> | null };
+export type GetAllCartsQuery = { __typename?: 'Query', getAllCarts?: Array<{ __typename?: 'Cart', id?: string | null, userId: { __typename?: 'User', firstName?: string | null, lastName?: string | null }, orderIds?: Array<{ __typename?: 'Order', id?: string | null, quantity?: string | null, userId?: { __typename?: 'User', id?: string | null, lastName?: string | null } | null, productId?: { __typename?: 'Product', id?: string | null, name?: string | null, price?: string | null, image?: Array<string | null> | null } | null } | null> | null } | null> | null };
 
 export type GetAllProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllProductsQuery = { __typename?: 'Query', getAllProducts?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null } | null> | null };
+export type GetAllProductsQuery = { __typename?: 'Query', getAllProducts?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: Array<string | null> | null, storeId?: { __typename?: 'Store', options?: { __typename?: 'StoreOptions', primaryColor?: string | null } | null } | null } | null> | null };
 
 export type GetAllBrandsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -574,12 +589,12 @@ export type GetAllBrandsQuery = { __typename?: 'Query', getAllBrands?: Array<{ _
 export type GetAllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllCategoriesQuery = { __typename?: 'Query', getAllCategories?: Array<{ __typename?: 'Category', image?: string | null, description?: string | null, name?: string | null, id?: string | null, productIds?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: string | null, price?: string | null, storeId?: { __typename?: 'Store', id?: string | null, name?: string | null, address?: string | null, userId?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null } | null } | null> | null } | null> | null };
+export type GetAllCategoriesQuery = { __typename?: 'Query', getAllCategories?: Array<{ __typename?: 'Category', image?: string | null, description?: string | null, name?: string | null, id?: string | null, productIds?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: Array<string | null> | null, price?: string | null, storeId?: { __typename?: 'Store', id?: string | null, name?: string | null, address?: string | null, userId?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null } | null } | null> | null } | null> | null };
 
 export type GetAllOrdersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllOrdersQuery = { __typename?: 'Query', getAllOrders?: Array<{ __typename?: 'Order', id?: string | null, quantity?: string | null, userId?: { __typename?: 'User', firstName?: string | null, id?: string | null, lastName?: string | null } | null, productId?: { __typename?: 'Product', name?: string | null, id?: string | null, image?: string | null, price?: string | null } | null } | null> | null };
+export type GetAllOrdersQuery = { __typename?: 'Query', getAllOrders?: Array<{ __typename?: 'Order', id?: string | null, quantity?: string | null, userId?: { __typename?: 'User', firstName?: string | null, id?: string | null, lastName?: string | null } | null, productId?: { __typename?: 'Product', name?: string | null, id?: string | null, image?: Array<string | null> | null, price?: string | null } | null } | null> | null };
 
 export type GetAllStoresQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -591,14 +606,14 @@ export type GetProductByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetProductByIdQuery = { __typename?: 'Query', getProductById?: { __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: string | null, price?: string | null, storeId?: { __typename?: 'Store', id?: string | null, name?: string | null, address?: string | null, productIds?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: string | null, price?: string | null } | null> | null } | null } | null };
+export type GetProductByIdQuery = { __typename?: 'Query', getProductById?: { __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: Array<string | null> | null, price?: string | null, storeId?: { __typename?: 'Store', id?: string | null, name?: string | null, address?: string | null, productIds?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: Array<string | null> | null, price?: string | null } | null> | null, options?: { __typename?: 'StoreOptions', primaryColor?: string | null } | null } | null } | null };
 
 export type GetStoreByIdQueryVariables = Exact<{
   getStoreByIdId: Scalars['ID'];
 }>;
 
 
-export type GetStoreByIdQuery = { __typename?: 'Query', getStoreById?: { __typename?: 'Store', id?: string | null, name?: string | null, phone?: string | null, image?: string | null, description?: string | null, userId?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null, options?: { __typename?: 'StoreOptions', id?: string | null, slider?: boolean | null, bgColor?: string | null, primaryColor?: string | null, whatsapp?: boolean | null, ourBrands?: boolean | null, bestProducts?: boolean | null, slider_image?: Array<string | null> | null, popup?: boolean | null, popupImage?: string | null } | null, productIds?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: string | null, price?: string | null, categoryIds?: Array<{ __typename?: 'Category', id?: string | null, name?: string | null, description?: string | null } | null> | null } | null> | null } | null };
+export type GetStoreByIdQuery = { __typename?: 'Query', getStoreById?: { __typename?: 'Store', id?: string | null, name?: string | null, phone?: string | null, image?: string | null, description?: string | null, userId?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null, options?: { __typename?: 'StoreOptions', id?: string | null, slider?: boolean | null, bgColor?: string | null, primaryColor?: string | null, whatsapp?: boolean | null, ourBrands?: boolean | null, bestProducts?: boolean | null, slider_image?: Array<string | null> | null, popup?: boolean | null, popupImage?: string | null } | null, productIds?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: Array<string | null> | null, price?: string | null, categoryIds?: Array<{ __typename?: 'Category', id?: string | null, name?: string | null, description?: string | null } | null> | null } | null> | null } | null };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -613,7 +628,7 @@ export type UserLoggedInSubscription = { __typename?: 'Subscription', userLogged
 export type ProductAddedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProductAddedSubscription = { __typename?: 'Subscription', productAdded?: { __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: string | null, price?: string | null } | null };
+export type ProductAddedSubscription = { __typename?: 'Subscription', productAdded?: { __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: Array<string | null> | null, price?: string | null } | null };
 
 
 export const CreateStoreOptionsDocument = gql`
@@ -659,6 +674,48 @@ export function useCreateStoreOptionsMutation(baseOptions?: Apollo.MutationHookO
 export type CreateStoreOptionsMutationHookResult = ReturnType<typeof useCreateStoreOptionsMutation>;
 export type CreateStoreOptionsMutationResult = Apollo.MutationResult<CreateStoreOptionsMutation>;
 export type CreateStoreOptionsMutationOptions = Apollo.BaseMutationOptions<CreateStoreOptionsMutation, CreateStoreOptionsMutationVariables>;
+export const CreateProductDocument = gql`
+    mutation CreateProduct($input: ProductInput) {
+  createProduct(input: $input) {
+    id
+    uuid
+    name
+    description
+    image
+    price
+    promoPrice
+    stock
+    status
+    createdAt
+  }
+}
+    `;
+export type CreateProductMutationFn = Apollo.MutationFunction<CreateProductMutation, CreateProductMutationVariables>;
+
+/**
+ * __useCreateProductMutation__
+ *
+ * To run a mutation, you first call `useCreateProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createProductMutation, { data, loading, error }] = useCreateProductMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateProductMutation(baseOptions?: Apollo.MutationHookOptions<CreateProductMutation, CreateProductMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateProductMutation, CreateProductMutationVariables>(CreateProductDocument, options);
+      }
+export type CreateProductMutationHookResult = ReturnType<typeof useCreateProductMutation>;
+export type CreateProductMutationResult = Apollo.MutationResult<CreateProductMutation>;
+export type CreateProductMutationOptions = Apollo.BaseMutationOptions<CreateProductMutation, CreateProductMutationVariables>;
 export const CreateStoreDocument = gql`
     mutation CreateStore($input: StoreInput) {
   createStore(input: $input) {
@@ -840,6 +897,12 @@ export const GetAllProductsDocument = gql`
     id
     name
     description
+    image
+    storeId {
+      options {
+        primaryColor
+      }
+    }
   }
 }
     `;
@@ -1069,6 +1132,9 @@ export const GetProductByIdDocument = gql`
         description
         image
         price
+      }
+      options {
+        primaryColor
       }
     }
   }

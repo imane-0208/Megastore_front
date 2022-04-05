@@ -16,6 +16,9 @@ query GetProductById($getProductByIdId: ID!) {
         image
         price
       }
+      options {
+        primaryColor
+      }
     }
   }
 }

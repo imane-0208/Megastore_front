@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import CircleNotificationsIcon from "@mui/icons-material/CircleNotifications";
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import StoreIcon from "@mui/icons-material/Store";
 import Badge from "@mui/material/Badge";
 import Link from "next/link";
@@ -8,16 +9,32 @@ import { useRouter } from "next/router";
 import EditIcon from "@mui/icons-material/Edit";
 import { PrimaryBtn } from "../PrimaryBtn";
 import SearchIcon from "@mui/icons-material/Search";
+import { motion } from "framer-motion";
 
 type Props = {
   setLoginPopup: (e: any) => void;
   title?: string;
+  imageProductAdded?: string;
+  addToCart?: boolean;
+  setAddToCart?: (e: any) => void;
 };
-const Header: FC<Props> = ({ setLoginPopup, title }) => {
+const Header: FC<Props> = ({
+  setLoginPopup,
+  title,
+  imageProductAdded,
+  addToCart,
+  setAddToCart,
+}) => {
   const [becameSeller, setBecameSeller] = useState(true);
   const [user, setUser] = useState<any>(false);
 
   const Router = useRouter();
+  useEffect(() => {
+    setTimeout(() => {
+      //@ts-ignore
+      setAddToCart(false);
+    }, 800);
+  }, [addToCart]);
 
   const handleBecameSeller = () => {
     let localUser = localStorage?.getItem("user");
@@ -43,7 +60,9 @@ const Header: FC<Props> = ({ setLoginPopup, title }) => {
       <div className="header flex p-5 justify-between">
         <div className="header__logo">
           <h2 className="text-2xl font-black hover:text-blue-500 transition-all cursor-pointer">
-            MEGASTORE × {title}
+            MEGASTORE{" "}
+            {title &&
+              ` ⨉ ${title}`}
           </h2>
         </div>
         <div className="ml-36">
@@ -84,6 +103,24 @@ const Header: FC<Props> = ({ setLoginPopup, title }) => {
             </Link>
           )}
 
+          <button className="relative">
+            <Badge badgeContent={1} color="primary">
+              <ShoppingBasketIcon className=" hover:text-blue-500 transition-all cursor-pointer" />
+            </Badge>
+            {addToCart && (
+              <motion.div
+                initial={{ opacity: 1, y: 0, scale: 2 }}
+                animate={{ opacity: 0, y: -45, scale: 0.5 }}
+                transition={{ duration: 0.8 }}
+                style={{
+                  backgroundImage: `url(${imageProductAdded})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+                className="p-3 absolute -bottom-8 rounded-full bg-blue-600"
+              />
+            )}
+          </button>
           <button className="">
             <Badge badgeContent={4} color="primary">
               <CircleNotificationsIcon className=" hover:text-blue-500 transition-all cursor-pointer" />
@@ -101,5 +138,8 @@ const Header: FC<Props> = ({ setLoginPopup, title }) => {
 export default Header;
 
 Header.defaultProps = {
-  title: "MEGASTORE",
+  title: "",
+  imageProductAdded: "",
+  addToCart: false,
+  setAddToCart: () => false,
 };

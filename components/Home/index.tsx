@@ -89,8 +89,8 @@ export const HomeComp = ({
               </div>
             </div>
           </nav>
-          {products?.map((product) => (
-            <ProductComp  key={product.id} product={product} />
+          {products?.map((product , i) => (
+            <ProductComp color={product?.storeId?.options?.primaryColor} key={product.id} product={product} />
           ))}
         </div>
         <nav id="store" className="w-full z-30 top-0 px-6 py-1">

@@ -36,50 +36,10 @@ const Home: NextPage<Props> = ({ products, categories, brands, stores }) => {
   const [imageAsUrl, setImageAsUrl] = useState(allInputs);
   const [progress, setProgress] = useState(0);
 
-  const handleImageAsFile = (e: any) => {
-    const image = e.target.files[0];
-    setImageAsFile((imageFile) => image);
-  };
-
-  const handleFireBaseUpload = (e: any) => {
-    e.preventDefault();
-    console.log(imageAsFile);
-
-    if (!imageAsFile) {
-      return alert("Please select an image");
-    } else {
-      const storageRef = ref(storage, `/files/${imageAsFile?.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, imageAsFile);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const prog = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-          setProgress(prog);
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            console.log(url);
-          });
-        }
-      );
-    }
-  };
-
-  const {data: userIsloggedIn, loading: userIsloggedInLoading, error: userIsloggedInError} = useUserLoggedInSubscription({
-    onSubscriptionData: (data) => {
-      console.log({ data: data });
-    }
-  });
 
   return (
     <>
-      <Banner />
+      {/* <Banner /> */}
       <Header setLoginPopup={setLoginPopup} />
       {/* @ts-ignore */}
       <HomeComp

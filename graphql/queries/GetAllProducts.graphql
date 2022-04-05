@@ -3,5 +3,11 @@ query GetAllProducts {
     id
     name
     description
+    image
+    storeId {
+      options {
+        primaryColor
+      }
+    }
   }
 }
