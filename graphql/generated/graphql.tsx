@@ -299,6 +299,7 @@ export type Product = {
   name?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['String']>;
   promoPrice?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
   stock?: Maybe<Scalars['String']>;
   storeId?: Maybe<Store>;
@@ -317,6 +318,7 @@ export type ProductInput = {
   name?: InputMaybe<Scalars['String']>;
   price?: InputMaybe<Scalars['String']>;
   promoPrice?: InputMaybe<Scalars['String']>;
+  quantity?: InputMaybe<Scalars['String']>;
   stock?: InputMaybe<Scalars['String']>;
   storeId?: InputMaybe<Scalars['ID']>;
 };
@@ -594,6 +596,11 @@ export type GetAllProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetAllProductsQuery = { __typename?: 'Query', getAllProducts?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: Array<string | null> | null, price?: string | null, uuid?: string | null, storeId?: { __typename?: 'Store', options?: { __typename?: 'StoreOptions', primaryColor?: string | null } | null } | null } | null> | null };
+
+export type GetAllProductsDashboardQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllProductsDashboardQuery = { __typename?: 'Query', getAllProducts?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, image?: Array<string | null> | null, price?: string | null, uuid?: string | null, quantity?: string | null, storeId?: { __typename?: 'Store', id?: string | null, name?: string | null } | null } | null> | null };
 
 export type GetAllBrandsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -997,6 +1004,49 @@ export function useGetAllProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetAllProductsQueryHookResult = ReturnType<typeof useGetAllProductsQuery>;
 export type GetAllProductsLazyQueryHookResult = ReturnType<typeof useGetAllProductsLazyQuery>;
 export type GetAllProductsQueryResult = Apollo.QueryResult<GetAllProductsQuery, GetAllProductsQueryVariables>;
+export const GetAllProductsDashboardDocument = gql`
+    query GetAllProductsDashboard {
+  getAllProducts {
+    id
+    name
+    image
+    price
+    uuid
+    quantity
+    storeId {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAllProductsDashboardQuery__
+ *
+ * To run a query within a React component, call `useGetAllProductsDashboardQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllProductsDashboardQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllProductsDashboardQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllProductsDashboardQuery(baseOptions?: Apollo.QueryHookOptions<GetAllProductsDashboardQuery, GetAllProductsDashboardQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllProductsDashboardQuery, GetAllProductsDashboardQueryVariables>(GetAllProductsDashboardDocument, options);
+      }
+export function useGetAllProductsDashboardLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllProductsDashboardQuery, GetAllProductsDashboardQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllProductsDashboardQuery, GetAllProductsDashboardQueryVariables>(GetAllProductsDashboardDocument, options);
+        }
+export type GetAllProductsDashboardQueryHookResult = ReturnType<typeof useGetAllProductsDashboardQuery>;
+export type GetAllProductsDashboardLazyQueryHookResult = ReturnType<typeof useGetAllProductsDashboardLazyQuery>;
+export type GetAllProductsDashboardQueryResult = Apollo.QueryResult<GetAllProductsDashboardQuery, GetAllProductsDashboardQueryVariables>;
 export const GetAllBrandsDocument = gql`
     query GetAllBrands {
   getAllBrands {

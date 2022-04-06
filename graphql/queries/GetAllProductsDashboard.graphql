@@ -1,0 +1,14 @@
+query GetAllProductsDashboard {
+  getAllProducts {
+    id
+    name
+    image
+    price
+    uuid
+    quantity
+    storeId {
+      id
+      name
+    }
+  }
+}
