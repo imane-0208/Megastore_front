@@ -346,6 +346,7 @@ export type Query = {
   getLastOrderByUserId?: Maybe<Order>;
   getOrderById?: Maybe<Order>;
   getProductById?: Maybe<Product>;
+  getProductByUuid?: Maybe<Product>;
   getStoreById?: Maybe<Store>;
   getStoreOptionsById?: Maybe<StoreOptions>;
   getStoreOptionsByStoreId?: Maybe<StoreOptions>;
@@ -392,6 +393,11 @@ export type QueryGetOrderByIdArgs = {
 
 export type QueryGetProductByIdArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryGetProductByUuidArgs = {
+  uuid: Scalars['String'];
 };
 
 
@@ -505,6 +511,7 @@ export type Subscription = {
 
 export type User = {
   __typename?: 'User';
+  createdAt?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   firstName?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
@@ -556,6 +563,13 @@ export type CreateStoreMutationVariables = Exact<{
 
 export type CreateStoreMutation = { __typename?: 'Mutation', createStore?: { __typename?: 'Store', id?: string | null, name?: string | null, address?: string | null, phone?: string | null, description?: string | null, image?: string | null } | null };
 
+export type DeleteProductMutationVariables = Exact<{
+  deleteProductId: Scalars['ID'];
+}>;
+
+
+export type DeleteProductMutation = { __typename?: 'Mutation', deleteProduct?: { __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null } | null };
+
 export type LoginMutationVariables = Exact<{
   input?: InputMaybe<LoginInput>;
 }>;
@@ -574,12 +588,12 @@ export type UpdateOptionsMutation = { __typename?: 'Mutation', updateStoreOption
 export type GetAllCartsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllCartsQuery = { __typename?: 'Query', getAllCarts?: Array<{ __typename?: 'Cart', id?: string | null, userId: { __typename?: 'User', firstName?: string | null, lastName?: string | null }, orderIds?: Array<{ __typename?: 'Order', id?: string | null, quantity?: string | null, userId?: { __typename?: 'User', id?: string | null, lastName?: string | null } | null, productId?: { __typename?: 'Product', id?: string | null, name?: string | null, price?: string | null, image?: Array<string | null> | null } | null } | null> | null } | null> | null };
+export type GetAllCartsQuery = { __typename?: 'Query', getAllCarts?: Array<{ __typename?: 'Cart', id?: string | null, userId: { __typename?: 'User', firstName?: string | null, lastName?: string | null }, orderIds?: Array<{ __typename?: 'Order', id?: string | null, quantity?: string | null, userId?: { __typename?: 'User', id?: string | null, lastName?: string | null } | null, productId?: { __typename?: 'Product', id?: string | null, name?: string | null, price?: string | null, image?: Array<string | null> | null, uuid?: string | null } | null } | null> | null } | null> | null };
 
 export type GetAllProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllProductsQuery = { __typename?: 'Query', getAllProducts?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: Array<string | null> | null, storeId?: { __typename?: 'Store', options?: { __typename?: 'StoreOptions', primaryColor?: string | null } | null } | null } | null> | null };
+export type GetAllProductsQuery = { __typename?: 'Query', getAllProducts?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: Array<string | null> | null, price?: string | null, uuid?: string | null, storeId?: { __typename?: 'Store', options?: { __typename?: 'StoreOptions', primaryColor?: string | null } | null } | null } | null> | null };
 
 export type GetAllBrandsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -589,31 +603,43 @@ export type GetAllBrandsQuery = { __typename?: 'Query', getAllBrands?: Array<{ _
 export type GetAllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllCategoriesQuery = { __typename?: 'Query', getAllCategories?: Array<{ __typename?: 'Category', image?: string | null, description?: string | null, name?: string | null, id?: string | null, productIds?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: Array<string | null> | null, price?: string | null, storeId?: { __typename?: 'Store', id?: string | null, name?: string | null, address?: string | null, userId?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null } | null } | null> | null } | null> | null };
+export type GetAllCategoriesQuery = { __typename?: 'Query', getAllCategories?: Array<{ __typename?: 'Category', image?: string | null, description?: string | null, name?: string | null, id?: string | null, productIds?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: Array<string | null> | null, price?: string | null, uuid?: string | null, storeId?: { __typename?: 'Store', id?: string | null, name?: string | null, address?: string | null, userId?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null } | null } | null> | null } | null> | null };
 
 export type GetAllOrdersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllOrdersQuery = { __typename?: 'Query', getAllOrders?: Array<{ __typename?: 'Order', id?: string | null, quantity?: string | null, userId?: { __typename?: 'User', firstName?: string | null, id?: string | null, lastName?: string | null } | null, productId?: { __typename?: 'Product', name?: string | null, id?: string | null, image?: Array<string | null> | null, price?: string | null } | null } | null> | null };
+export type GetAllOrdersQuery = { __typename?: 'Query', getAllOrders?: Array<{ __typename?: 'Order', id?: string | null, quantity?: string | null, userId?: { __typename?: 'User', firstName?: string | null, id?: string | null, lastName?: string | null } | null, productId?: { __typename?: 'Product', name?: string | null, id?: string | null, image?: Array<string | null> | null, price?: string | null, uuid?: string | null } | null } | null> | null };
 
 export type GetAllStoresQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetAllStoresQuery = { __typename?: 'Query', getAllStores?: Array<{ __typename?: 'Store', id?: string | null, name?: string | null, address?: string | null, phone?: string | null, description?: string | null, image?: string | null, userId?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null } | null> | null };
 
+export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllUsersQuery = { __typename?: 'Query', getAllUsers?: Array<{ __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null, email?: string | null, role?: Role | null, createdAt?: string | null } | null> | null };
+
 export type GetProductByIdQueryVariables = Exact<{
   getProductByIdId: Scalars['ID'];
 }>;
 
 
-export type GetProductByIdQuery = { __typename?: 'Query', getProductById?: { __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: Array<string | null> | null, price?: string | null, storeId?: { __typename?: 'Store', id?: string | null, name?: string | null, address?: string | null, productIds?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: Array<string | null> | null, price?: string | null } | null> | null, options?: { __typename?: 'StoreOptions', primaryColor?: string | null } | null } | null } | null };
+export type GetProductByIdQuery = { __typename?: 'Query', getProductById?: { __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: Array<string | null> | null, price?: string | null, uuid?: string | null, storeId?: { __typename?: 'Store', id?: string | null, name?: string | null, address?: string | null, productIds?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: Array<string | null> | null, price?: string | null } | null> | null, options?: { __typename?: 'StoreOptions', primaryColor?: string | null } | null } | null } | null };
+
+export type GetProductByUuidQueryVariables = Exact<{
+  uuid: Scalars['String'];
+}>;
+
+
+export type GetProductByUuidQuery = { __typename?: 'Query', getProductByUuid?: { __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: Array<string | null> | null, price?: string | null, storeId?: { __typename?: 'Store', id?: string | null, name?: string | null, address?: string | null, productIds?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: Array<string | null> | null, price?: string | null, uuid?: string | null } | null> | null, options?: { __typename?: 'StoreOptions', primaryColor?: string | null } | null } | null } | null };
 
 export type GetStoreByIdQueryVariables = Exact<{
   getStoreByIdId: Scalars['ID'];
 }>;
 
 
-export type GetStoreByIdQuery = { __typename?: 'Query', getStoreById?: { __typename?: 'Store', id?: string | null, name?: string | null, phone?: string | null, image?: string | null, description?: string | null, userId?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null, options?: { __typename?: 'StoreOptions', id?: string | null, slider?: boolean | null, bgColor?: string | null, primaryColor?: string | null, whatsapp?: boolean | null, ourBrands?: boolean | null, bestProducts?: boolean | null, slider_image?: Array<string | null> | null, popup?: boolean | null, popupImage?: string | null } | null, productIds?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: Array<string | null> | null, price?: string | null, categoryIds?: Array<{ __typename?: 'Category', id?: string | null, name?: string | null, description?: string | null } | null> | null } | null> | null } | null };
+export type GetStoreByIdQuery = { __typename?: 'Query', getStoreById?: { __typename?: 'Store', id?: string | null, name?: string | null, phone?: string | null, image?: string | null, description?: string | null, userId?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null, options?: { __typename?: 'StoreOptions', id?: string | null, slider?: boolean | null, bgColor?: string | null, primaryColor?: string | null, whatsapp?: boolean | null, ourBrands?: boolean | null, bestProducts?: boolean | null, slider_image?: Array<string | null> | null, popup?: boolean | null, popupImage?: string | null } | null, productIds?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, image?: Array<string | null> | null, price?: string | null, uuid?: string | null, categoryIds?: Array<{ __typename?: 'Category', id?: string | null, name?: string | null, description?: string | null } | null> | null } | null> | null } | null };
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -754,6 +780,41 @@ export function useCreateStoreMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateStoreMutationHookResult = ReturnType<typeof useCreateStoreMutation>;
 export type CreateStoreMutationResult = Apollo.MutationResult<CreateStoreMutation>;
 export type CreateStoreMutationOptions = Apollo.BaseMutationOptions<CreateStoreMutation, CreateStoreMutationVariables>;
+export const DeleteProductDocument = gql`
+    mutation DeleteProduct($deleteProductId: ID!) {
+  deleteProduct(id: $deleteProductId) {
+    id
+    name
+    description
+  }
+}
+    `;
+export type DeleteProductMutationFn = Apollo.MutationFunction<DeleteProductMutation, DeleteProductMutationVariables>;
+
+/**
+ * __useDeleteProductMutation__
+ *
+ * To run a mutation, you first call `useDeleteProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteProductMutation, { data, loading, error }] = useDeleteProductMutation({
+ *   variables: {
+ *      deleteProductId: // value for 'deleteProductId'
+ *   },
+ * });
+ */
+export function useDeleteProductMutation(baseOptions?: Apollo.MutationHookOptions<DeleteProductMutation, DeleteProductMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteProductMutation, DeleteProductMutationVariables>(DeleteProductDocument, options);
+      }
+export type DeleteProductMutationHookResult = ReturnType<typeof useDeleteProductMutation>;
+export type DeleteProductMutationResult = Apollo.MutationResult<DeleteProductMutation>;
+export type DeleteProductMutationOptions = Apollo.BaseMutationOptions<DeleteProductMutation, DeleteProductMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($input: LoginInput) {
   login(input: $input) {
@@ -858,6 +919,7 @@ export const GetAllCartsDocument = gql`
         name
         price
         image
+        uuid
       }
       quantity
     }
@@ -898,6 +960,8 @@ export const GetAllProductsDocument = gql`
     name
     description
     image
+    price
+    uuid
     storeId {
       options {
         primaryColor
@@ -983,6 +1047,7 @@ export const GetAllCategoriesDocument = gql`
       description
       image
       price
+      uuid
       storeId {
         id
         name
@@ -1038,6 +1103,7 @@ export const GetAllOrdersDocument = gql`
       id
       image
       price
+      uuid
     }
     quantity
   }
@@ -1114,6 +1180,45 @@ export function useGetAllStoresLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type GetAllStoresQueryHookResult = ReturnType<typeof useGetAllStoresQuery>;
 export type GetAllStoresLazyQueryHookResult = ReturnType<typeof useGetAllStoresLazyQuery>;
 export type GetAllStoresQueryResult = Apollo.QueryResult<GetAllStoresQuery, GetAllStoresQueryVariables>;
+export const GetAllUsersDocument = gql`
+    query GetAllUsers {
+  getAllUsers {
+    id
+    firstName
+    lastName
+    email
+    role
+    createdAt
+  }
+}
+    `;
+
+/**
+ * __useGetAllUsersQuery__
+ *
+ * To run a query within a React component, call `useGetAllUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllUsersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllUsersQuery(baseOptions?: Apollo.QueryHookOptions<GetAllUsersQuery, GetAllUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, options);
+      }
+export function useGetAllUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllUsersQuery, GetAllUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, options);
+        }
+export type GetAllUsersQueryHookResult = ReturnType<typeof useGetAllUsersQuery>;
+export type GetAllUsersLazyQueryHookResult = ReturnType<typeof useGetAllUsersLazyQuery>;
+export type GetAllUsersQueryResult = Apollo.QueryResult<GetAllUsersQuery, GetAllUsersQueryVariables>;
 export const GetProductByIdDocument = gql`
     query GetProductById($getProductByIdId: ID!) {
   getProductById(id: $getProductByIdId) {
@@ -1122,6 +1227,7 @@ export const GetProductByIdDocument = gql`
     description
     image
     price
+    uuid
     storeId {
       id
       name
@@ -1168,6 +1274,61 @@ export function useGetProductByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetProductByIdQueryHookResult = ReturnType<typeof useGetProductByIdQuery>;
 export type GetProductByIdLazyQueryHookResult = ReturnType<typeof useGetProductByIdLazyQuery>;
 export type GetProductByIdQueryResult = Apollo.QueryResult<GetProductByIdQuery, GetProductByIdQueryVariables>;
+export const GetProductByUuidDocument = gql`
+    query GetProductByUuid($uuid: String!) {
+  getProductByUuid(uuid: $uuid) {
+    id
+    name
+    description
+    image
+    price
+    storeId {
+      id
+      name
+      address
+      productIds {
+        id
+        name
+        description
+        image
+        price
+        uuid
+      }
+      options {
+        primaryColor
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetProductByUuidQuery__
+ *
+ * To run a query within a React component, call `useGetProductByUuidQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProductByUuidQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProductByUuidQuery({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *   },
+ * });
+ */
+export function useGetProductByUuidQuery(baseOptions: Apollo.QueryHookOptions<GetProductByUuidQuery, GetProductByUuidQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetProductByUuidQuery, GetProductByUuidQueryVariables>(GetProductByUuidDocument, options);
+      }
+export function useGetProductByUuidLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProductByUuidQuery, GetProductByUuidQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetProductByUuidQuery, GetProductByUuidQueryVariables>(GetProductByUuidDocument, options);
+        }
+export type GetProductByUuidQueryHookResult = ReturnType<typeof useGetProductByUuidQuery>;
+export type GetProductByUuidLazyQueryHookResult = ReturnType<typeof useGetProductByUuidLazyQuery>;
+export type GetProductByUuidQueryResult = Apollo.QueryResult<GetProductByUuidQuery, GetProductByUuidQueryVariables>;
 export const GetStoreByIdDocument = gql`
     query GetStoreById($getStoreByIdId: ID!) {
   getStoreById(id: $getStoreByIdId) {
@@ -1199,6 +1360,7 @@ export const GetStoreByIdDocument = gql`
       description
       image
       price
+      uuid
       categoryIds {
         id
         name

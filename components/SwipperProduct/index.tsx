@@ -36,7 +36,7 @@ export const SwipperProduct: FC<Props> = ({ images }) => {
         zoom={true}
       >
         {images?.map((image, index) => (
-          <SwiperSlide key={index} className="bg-red-600 backdrop-blur-xl bg-opacity-20 cursor-zoom-in"
+          <SwiperSlide key={index} className="bg-slate-300 backdrop-blur-xl bg-opacity-20 cursor-zoom-in"
           style={{
             backgroundImage: `url(${image})`,
             backgroundSize: "cover",

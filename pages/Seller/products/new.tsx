@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { storage } from "../../../firebase/index.js";
 import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage";
 import { CircularProgress, LinearProgress } from "@mui/material";
+import { useRouter } from "next/router";
 import {
   Category,
   GetAllCategoriesDocument,
@@ -40,6 +41,10 @@ const New: NextPage<Props> = ({ categories }) => {
   const [stock, setStock] = useState("0");
   const [stockProgress, setStockProgress] = useState(0);
   const [editorState, setEditorState] = useState();
+
+  const {query , 
+    isReady
+  } = useRouter();
 
   const handleFireBaseUpload = () => {
     console.log(imageAsFile);
@@ -154,7 +159,13 @@ const New: NextPage<Props> = ({ categories }) => {
   const [createProduct, { loading: createProductLoading }] =
     useCreateProductMutation();
 
+
+
   const handleCreateProduct = async () => {
+
+    const storeID = await JSON.parse(localStorage.getItem("user"))?.store?.id;
+
+
     const { data: createdProduct } = await createProduct({
       variables: {
         input: {
@@ -164,8 +175,9 @@ const New: NextPage<Props> = ({ categories }) => {
           description: editorState,
           categoryIds: [category],
           stock: stock,
+          //@ts-ignore
           image: sliderImages,
-          storeId: "6245de7d501b36f6f56c637c",
+          storeId: storeID,
         },
       },
     });
@@ -177,11 +189,7 @@ const New: NextPage<Props> = ({ categories }) => {
     <div className="p-8 relative">
       {createProductLoading && (
         <div className="fixed z-50 top-0 left-0 flex justify-center items-center w-screen bg-white bg-opacity-50 h-screen">
-          <CircularProgress
-            size={300}
-            thickness={5}
-
-          />
+          <CircularProgress size={300} thickness={2} />
         </div>
       )}
       <h1 className="text-2xl font-black">New Product</h1>
@@ -206,6 +214,7 @@ const New: NextPage<Props> = ({ categories }) => {
             Product Description
           </label>
           <div className="bg-white mt-5 p-3 rounded-sm">
+            {/* @ts-ignore */}
             <TextEditor setEditorState={setEditorState} />
           </div>
           <label
@@ -270,6 +279,7 @@ const New: NextPage<Props> = ({ categories }) => {
               >
                 {(categories || [])?.map((category, index) => {
                   return (
+                    // @ts-ignore
                     <option key={index} value={category?.id}>
                       {category.name}
                     </option>

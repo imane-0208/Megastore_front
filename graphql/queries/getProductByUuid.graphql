@@ -1,11 +1,10 @@
-query GetProductById($getProductByIdId: ID!) {
-  getProductById(id: $getProductByIdId) {
+query GetProductByUuid($uuid: String!) {
+  getProductByUuid(uuid: $uuid) {
     id
     name
     description
     image
     price
-    uuid
     storeId {
       id
       name
@@ -16,6 +15,7 @@ query GetProductById($getProductByIdId: ID!) {
         description
         image
         price
+        uuid
       }
       options {
         primaryColor

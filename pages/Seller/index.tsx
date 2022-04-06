@@ -57,7 +57,7 @@ const Seller: NextPage = () => {
         setImage("");
         setUser("");
 
-        
+
 
 
 

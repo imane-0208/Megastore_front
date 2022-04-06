@@ -16,6 +16,7 @@ query GetAllCarts {
         name
         price
         image
+        uuid
       }
       quantity
     }

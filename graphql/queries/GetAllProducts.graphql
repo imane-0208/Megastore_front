@@ -4,6 +4,8 @@ query GetAllProducts {
     name
     description
     image
+    price
+    uuid
     storeId {
       options {
         primaryColor

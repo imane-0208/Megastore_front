@@ -10,6 +10,7 @@ query getAllCategories {
       description
       image
       price
+      uuid
       storeId {
         id
         name

@@ -36,34 +36,21 @@ const Header: FC<Props> = ({
     }, 800);
   }, [addToCart]);
 
-  const handleBecameSeller = () => {
-    let localUser = localStorage?.getItem("user");
-    //get user from local storage
-    if (localUser) {
-      setUser(JSON.parse(localUser));
-    }
 
-    if (user) {
-      // @ts-ignore
-      if (user.store.id === Router?.query?.slug[0]) {
-        setBecameSeller(false);
-      }
-    }
-  };
-
-  useEffect(() => {
-    handleBecameSeller();
-  }, []);
 
   return (
     <>
-      <div className="header flex p-5 justify-between">
+      <div className="header w-screen fixed top-0 left-0 bg-slate-200 shadow-lg z-50 flex p-5 justify-between">
         <div className="header__logo">
+          <Link href="/"
+          passHref
+          >
           <h2 className="text-2xl font-black hover:text-blue-500 transition-all cursor-pointer">
             MEGASTORE{" "}
             {title &&
               ` ⨉ ${title}`}
           </h2>
+          </Link>
         </div>
         <div className="ml-36">
           <div className="flex justify-center items-center text-gray-600">
@@ -86,7 +73,7 @@ const Header: FC<Props> = ({
           {becameSeller ? (
             <Link href="/Seller" passHref={true}>
               <button className="p-2 rounded-full hover:bg-blue-50 hover:text-blue-500 transition-all bg-blue-500 text-white px-4">
-                <span>Became a seller</span>
+                <span>Become a seller</span>
                 <StoreIcon className=" " />
               </button>
             </Link>

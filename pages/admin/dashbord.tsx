@@ -18,7 +18,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import LocalAtmTwoToneIcon from '@mui/icons-material/LocalAtmTwoTone';
+import LocalAtmTwoToneIcon from "@mui/icons-material/LocalAtmTwoTone";
 import DashboardProducts from "@/components/DashboardProducts";
 import { useRouter } from "next/router";
 import { GetStoreByIdDocument } from "@/graphql/generated/graphql";
@@ -28,6 +28,8 @@ import Cards from "@/components/admin/dashbord/cards";
 import Orders from "@/components/admin/dashbord/orders";
 import Carts from "@/components/admin/dashbord/carts";
 import { PrimaryBtn } from "@/components/PrimaryBtn";
+import ListUser from "@/components/admin/dashbord/listUser";
+import Product from "@/components/admin/dashbord/products";
 
 const drawerWidth = 240;
 
@@ -103,7 +105,8 @@ const Drawer = styled(MuiDrawer, {
 const Products: NextPage = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [table, setTable] = React.useState("orders");
+  //pardefault
+  const [table, setTable] = React.useState("ListUser");
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -133,7 +136,7 @@ const Products: NextPage = () => {
           <div className="w-full flex justify-between ">
 
           <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
+            Dashboard
           </Typography>
           <PrimaryBtn className="text-blue-500 hover:bg-blue-200">
             logout
@@ -153,28 +156,30 @@ const Products: NextPage = () => {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Orders", "Carts", "Users", "Email"].map((text, index) => (
-            <ListItemButton
-              key={text}
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-              onClick={() => setTable(text)}
-            >
-              <ListItemIcon
+          {["Orders", "Users", "Carts", "Email", "ListUser", "Product"].map(
+            (text, index) => (
+              <ListItemButton
+                key={text}
                 sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
                 }}
+                onClick={() => setTable(text)}
               >
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          ))}
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            )
+          )}
         </List>
         <Divider />
         <List>
@@ -205,7 +210,10 @@ const Products: NextPage = () => {
         <DrawerHeader />
         <Cards />
         {table === "Orders" && <Orders />}
-        {table === "Users" && <Carts />}
+        {table === "Carts" && <Carts />}
+        {table === "ListUser" && <ListUser />}
+        {table === "Product" && <Product />}
+        <Product />
       </Box>
     </Box>
   );

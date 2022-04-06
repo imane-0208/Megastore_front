@@ -28,6 +28,7 @@ query GetStoreById($getStoreByIdId: ID!) {
       description
       image
       price
+      uuid
       categoryIds {
         id
         name

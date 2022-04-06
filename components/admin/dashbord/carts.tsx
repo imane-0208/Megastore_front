@@ -112,14 +112,27 @@ const Carts = () => {
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5">
-                  {cart?.orderIds?.quantity}
+                  {cart?.quantity}
                 </td>
                 <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5">
                   {cart?.orderIds?.id}
                 </td>
-                <td className="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
-                  <button className="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none">
-                    View Details
+                <td className="p-4 whitespace-nowrap space-x-2">
+                  <button
+                    type="button"
+                    data-modal-toggle="user-modal"
+                    className="text-white bg-blue-500 hover:bg-blue-400	 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center"
+                  >
+                 
+                    Confirmé
+                  </button>
+                  <button
+                    type="button"
+                    data-modal-toggle="delete-user-modal"
+                    className="text-white bg-red-500	 hover:bg-red-400 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-3 py-2 text-center"
+                  >
+                 
+                    Annuler
                   </button>
                 </td>
               </tr>

@@ -88,6 +88,7 @@ export const TextEditor:FC<Props> = ({
   return (
     <QuillNoSSRWrapper
       onChange={(value) => {
+        //@ts-ignore
         setEditorState(value);
       }}
       modules={modules}

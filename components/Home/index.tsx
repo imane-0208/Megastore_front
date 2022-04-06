@@ -10,6 +10,7 @@ import {
   Category,
 } from "@/graphql/generated/graphql";
 import { useGetAllBrandsQuery, Brand } from "@/graphql/generated/graphql";
+import { SkeletonProduct } from "../Skeleton";
 
 export const HomeComp = ({
   products,
@@ -25,7 +26,7 @@ export const HomeComp = ({
   }, [products]);
 
   return (
-    <div className="mx-auto container px-6 xl:px-0 py-12">
+    <div className="mx-auto pt-32 container px-6 xl:px-0 py-12">
       <div className="flex flex-col">
         <div className="flex flex-col justify-center">
           <div className="relative">
@@ -41,7 +42,7 @@ export const HomeComp = ({
             />
             <div className="absolute sm:bottom-8 bottom-4 pr-10 sm:pr-0 left-4 sm:left-8 flex justify-start items-start">
               <p className="text-3xl sm:text-4xl font-semibold leading-9 text-white">
-                Range Comfort Sofas
+                Best deals in north africa
               </p>
             </div>
           </div>
@@ -89,8 +90,24 @@ export const HomeComp = ({
               </div>
             </div>
           </nav>
-          {products?.map((product , i) => (
-            <ProductComp color={product?.storeId?.options?.primaryColor} key={product.id} product={product} />
+          {
+            !products && (
+              <div className="flex w-full gap-3 justify-center">
+                {
+                  Array(6).fill(0).map((_, i) => (
+                    <SkeletonProduct key={i} />
+                  ))
+                }
+              </div>
+            )
+          }
+          {products?.map((product, i) => (
+            // @ts-ignore
+            <ProductComp
+              color={product?.storeId?.options?.primaryColor}
+              key={product.id}
+              product={product}
+            />
           ))}
         </div>
         <nav id="store" className="w-full z-30 top-0 px-6 py-1">
@@ -144,13 +161,7 @@ export const HomeComp = ({
             <h1 className="text-3xl capitalize mb-3">{category.name}</h1>
             <div className="flex gap-4">
               {(category.productIds || []).map((product: any) => (
-                <ProductWithStar
-                  key={product.id}
-                  id={product.id}
-                  name={product.name}
-                  price={product.price}
-                  image={product.image}
-                />
+                <ProductComp key={product.id} product={product} />
               ))}
             </div>
           </div>

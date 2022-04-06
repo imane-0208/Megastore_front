@@ -3,11 +3,10 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import Link from "next/link";
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 // import { GetAllProductsDocument, GetAllProductsQueryVariables } from '@/graphql/generated/graphql';
 import {
-  GetProductByIdDocument,
-  GetProductByIdQueryVariables,
+  GetProductByUuidDocument,
   Product,
 } from "@/graphql/generated/graphql";
 import { ProductComp } from "@/components/Product";
@@ -37,32 +36,39 @@ import { ProductSmall } from "@/components/ProductSmall";
 import { ProductWithStar } from "@/components/ProductWithStar";
 import { SwipperProduct } from "@/components/SwipperProduct";
 import Header from "@/components/Header";
-import { Accordion, AccordionSummary } from "@mui/material";
+import { Accordion, AccordionSummary, Skeleton } from "@mui/material";
+import { log } from "console";
 
 type Props = {};
 
 const Product: NextPage<Props> = () => {
   const { query, isReady } = useRouter();
 
-  const productId: any = query.slug || [];
+  const productId: any = query.uuid;
 
-  const { data, loading, error } = useQuery(GetProductByIdDocument, {
+  const { data, loading, error } = useQuery(GetProductByUuidDocument, {
     variables: {
-      getProductByIdId: productId[0],
+      uuid: productId,
     },
   });
 
   useEffect(() => {
-    console.log(productId[0]);
-    console.log(data);
-  });
+    if (data) {
+      console.log(data);
+    }
+  }, [data]);
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  const [addToCart , setAddToCart] = useState(false);
+  const [addToCart, setAddToCart] = useState(false);
 
   return (
-    <div>
-      <Header setLoginPopup={() => {}} setAddToCart={setAddToCart} addToCart={addToCart} imageProductAdded={data?.getProductById?.image[0]} />
+    <div className="pt-10" >
+      <Header
+        setLoginPopup={() => {}}
+        setAddToCart={setAddToCart}
+        addToCart={addToCart}
+        imageProductAdded={data?.getProductByUuid?.image[0]}
+      />
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap -mx-4">
@@ -96,10 +102,13 @@ const Product: NextPage<Props> = () => {
                         </li>
                         <li className="mr-5">
                           <Link
-                            href={`/store/${data?.getProductById?.storeId.id}`}
+                            href={`/store/${data?.getProductByUuid?.storeId.id}`}
                           >
                             <span className="inline-block hover:text-blue-600 cursor-pointer mr-5 text-xs font-bold font-heading uppercase text-base">
-                              {data?.getProductById?.storeId.name}
+                              {!data?.getProductByUuid?.storeId.id && (
+                                <Skeleton variant="text" width={100} />
+                              )}
+                              {data?.getProductByUuid?.storeId.name}
                             </span>
                           </Link>
                           <span className="inline-block">
@@ -118,16 +127,25 @@ const Product: NextPage<Props> = () => {
                           </span>
                         </li>
                         <li>
-                          <a
+                          <span
                             className="inline-block hover:text-blue-600 cursor-pointer mr-5 text-xs font-bold font-heading uppercase text-base"
-                            href="#"
                           >
-                            {data?.getProductById?.name}
-                          </a>
+                            {!data?.getProductByUuid?.storeId.id && (
+                              <Skeleton variant="text" width={100} />
+                            )}
+                            {data?.getProductByUuid?.name}
+                          </span>
                         </li>
                       </ul>
                     </div>
-                    <SwipperProduct images={data?.getProductById?.image} />
+                    {!data && (
+                      <Skeleton
+                        variant="rectangular"
+                        className="w-full "
+                        height={500}
+                      />
+                    )}
+                    <SwipperProduct images={data?.getProductByUuid?.image} />
                   </div>
                 </div>
                 <div className="w-full lg:w-3/4 mt-12 ml-auto">
@@ -159,7 +177,14 @@ const Product: NextPage<Props> = () => {
                 <div className=" border-b">
                   <span className="text-gray-500">Product</span>
                   <h2 className="mt-2 mb-6 max-w-xl text-5xl md:text-6xl font-bold font-heading">
-                    {data?.getProductById?.name}
+                    {!data && (
+                      <Skeleton
+                        variant="rectangular"
+                        className="w-1/2 "
+                        height={60}
+                      />
+                    )}
+                    {data?.getProductByUuid?.name}
                   </h2>
                   <div className="mb-8">
                     <button>
@@ -200,12 +225,15 @@ const Product: NextPage<Props> = () => {
                   </div>
                   <p className="inline-block mb-8 text-2xl font-bold font-heading text-blue-300">
                     <span
+                    className="flex items-end"
                       style={{
                         color:
-                          data?.getProductById?.storeId.options.primaryColor,
+                          data?.getProductByUuid?.storeId.options.primaryColor,
                       }}
                     >
-                      $ {data?.getProductById.price}
+                      $ {data?.getProductByUuid.price}
+                      {!data && <Skeleton variant="rectangular"
+                    height={40} width={40}  />}
                     </span>
                   </p>
                 </div>
@@ -273,47 +301,18 @@ const Product: NextPage<Props> = () => {
                     <motion.button
                       style={{
                         backgroundColor:
-                          data?.getProductById?.storeId.options.primaryColor,
+                          data?.getProductByUuid?.storeId.options.primaryColor,
                       }}
                       onClick={() => setAddToCart(true)}
                       className="block mb-4 lg:mb-0 lg:mr-6  text-center text-white font-bold hover:scale-105 font-heading py-5 px-8 rounded-md uppercase transition duration-200"
-                      href="#"
                     >
                       Add to cart
                     </motion.button>
                   </div>
-                  <div className="w-full lg:w-1/2">
-                    <a
-                      className="flex-shrink-0 flex w-full flex-wrap items-center justify-center w-16 h-16 rounded-md border hover:border-gray-500"
-                      href="#"
-                    >
-                      <svg
-                        className="-mt-1 mr-2"
-                        width="27"
-                        height="27"
-                        viewBox="0 0 27 27"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M13.4993 26.2061L4.70067 16.9253C3.9281 16.1443 3.41815 15.1374 3.24307 14.0471C3.06798 12.9568 3.23664 11.8385 3.72514 10.8505V10.8505C4.09415 10.1046 4.63318 9.45803 5.29779 8.96406C5.96241 8.47008 6.73359 8.14284 7.54782 8.00931C8.36204 7.87578 9.19599 7.93978 9.98095 8.19603C10.7659 8.45228 11.4794 8.89345 12.0627 9.48319L13.4993 10.9358L14.9359 9.48319C15.5192 8.89345 16.2327 8.45228 17.0177 8.19603C17.8026 7.93978 18.6366 7.87578 19.4508 8.00931C20.265 8.14284 21.0362 8.47008 21.7008 8.96406C22.3654 9.45803 22.9045 10.1046 23.2735 10.8505V10.8505C23.762 11.8385 23.9306 12.9568 23.7556 14.0471C23.5805 15.1374 23.0705 16.1443 22.298 16.9253L13.4993 26.2061Z"
-                          stroke="black"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                      </svg>
-                      <span className="font-bold font-heading uppercase">
-                        Add to wishlist
-                      </span>
-                    </a>
-                  </div>
+                  
                 </div>
                 <div className="flex items-center justify-between py-6 border-b">
-                  <Accordion 
-                  
-                  defaultExpanded
-                  className="w-full">
+                  <Accordion defaultExpanded className="w-full">
                     <AccordionSummary
                       expandIcon={<ExpandMoreIcon />}
                       aria-controls="panel1a-content"
@@ -325,7 +324,7 @@ const Product: NextPage<Props> = () => {
                     <AccordionDetails>
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: data?.getProductById?.description,
+                          __html: data?.getProductByUuid?.description,
                         }}
                       />
                     </AccordionDetails>
@@ -339,49 +338,19 @@ const Product: NextPage<Props> = () => {
       <div className="mt-16">
         <div className="lg:p-10 md:p-6 p-4 bg-white dark:bg-gray-900">
           <h3 className="text-gray-600 text-2xl font-medium">More Products</h3>
-          <div className="w-full">
-            <Swiper
-              effect={"coverflow"}
-              grabCursor={true}
-              centeredSlides={true}
-              slidesPerView={"auto"}
-              autoplay={{
-                delay: 1000,
-                disableOnInteraction: false,
-              }}
-              coverflowEffect={{
-                rotate: 30,
-                stretch: 0,
-                depth: 100,
-                modifier: 1,
-                slideShadows: true,
-              }}
-              pagination={true}
-              modules={[EffectCoverflow, Pagination]}
-              className="mySwiper"
-            >
-              {data?.getProductById.storeId?.productIds?.map(
+          <div className="w-full flex flex-wrap  justify-start">
+              {data?.getProductByUuid.storeId?.productIds?.map(
                 (product: {
                   id: string;
                   name: string;
                   description: string;
                   price: string;
                   image: string;
+                  uuid: string;
                 }) => (
-                  <SwiperSlide
-                    key={product.id}
-                    className="object-cover object-center max-w-[300px]"
-                  >
-                    <ProductWithStar
-                      id={product.id}
-                      name={product.name}
-                      price={product.price}
-                      image={product.image}
-                    />
-                  </SwiperSlide>
+                  <ProductComp key={product.id} product={product} />
                 )
               )}
-            </Swiper>
           </div>
         </div>
       </div>

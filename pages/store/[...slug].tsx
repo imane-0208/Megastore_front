@@ -85,6 +85,7 @@ const Store: NextPage = () => {
       style={{
         backgroundColor: store?.options.bgColor,
       }}
+      className="pt-20"
     >
       <Header title={store?.name} setLoginPopup={setLoginPopup} />
       {!store?.options.slider && (
@@ -113,7 +114,7 @@ const Store: NextPage = () => {
               Our best Products
             </div>
           )}
-          <div className="max-w-[800px] flex flex-wrap justify-center">
+          <div className="max-w-[1000px] w-full flex flex-wrap justify-center">
             {products?.slice(0, 4).map((product: any, i: number) => (
               <ProductComp key={i} product={product} />
             ))}
@@ -141,7 +142,7 @@ const Store: NextPage = () => {
               Our Products
             </div>
           )}
-          <div className="max-w-[800px] flex flex-wrap">
+          <div className="max-w-[1000px] w-full flex flex-wrap">
             {products?.map((product: any, i: number) => (
               <ProductComp key={i} product={product} />
             ))}

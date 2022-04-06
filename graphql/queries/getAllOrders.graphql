@@ -11,6 +11,7 @@ query getAllOrders {
       id
       image
       price
+      uuid
     }
     quantity
   }

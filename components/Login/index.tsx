@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { LoginDocument, useLoginMutation } from "@/graphql/generated/graphql";
 import { gql, useMutation } from "@apollo/client";
 import Toaster from "../Toaster";
+import {motion} from "framer-motion";
 
 type setLoginPopup = (value: boolean) => void;
 
@@ -57,7 +58,12 @@ export const LoginPopup = ({
       <span className="absolute top-0 right-0 cursor-pointer text-2xl m-4">
         <CloseIcon onClick={() => setLoginPopup(false)} />
       </span>
-      <div className="container mx-auto my-auto ">
+      <motion.div
+      initial={{opacity: 0, y: -100 , scale: 0.5}}
+      animate={{opacity: 1, y: 0, scale: 1}}
+      exit={{opacity: 0, y: -100}}
+      transition={{duration: 0.5}}
+      className="container mx-auto my-auto ">
         <div className="flex justify-center px-6 my-12">
           <div className="w-full xl:w-3/4 lg:w-11/12 shadow-2xl flex">
             <div
@@ -148,7 +154,7 @@ export const LoginPopup = ({
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
       {toaster && <Toaster setToaster={setToaster} text={toasterText} />}
     </div>
   );

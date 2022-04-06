@@ -18,9 +18,16 @@ export const ProductComp:FC<Props> = ({product , onDashboard , color}) => {
 
 
   return (
-      <Link href={!onDashboard ? `/product/${product.id}` : `/Seller/products/edit/${product.id}`} passHref >
+      <Link href={!onDashboard ? `/product/${product.uuid}` : `/Seller/products/edit/${product.id}`} passHref >
         <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col cursor-pointer border-[5px] border-indigo-500 ">
-                    <img className="hover:grow hover:shadow-lg" src={product?.image?.length > 0 ? product?.image[0] : ''} />
+            <div
+            style={{
+                backgroundImage: `url(${product?.image?.length > 0 ? product?.image[0] : ''})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+            }}
+            className="w-full h-56 bg-slate-400 ">
+            </div>
                     <div className="pt-3 flex items-center justify-between">
                         <p className="">{
                             product.name
