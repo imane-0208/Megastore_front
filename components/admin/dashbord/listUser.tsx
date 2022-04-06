@@ -12,9 +12,6 @@ const Liste = () => {
     setUsers(data?.getAllUsers);
   }, [data]);
 
-  
-
-
   return (
     <div>
       <div className="w-full grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
@@ -113,7 +110,9 @@ const Liste = () => {
                             </span>
                           </td>
                           <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
-                            {user?.createdAt}
+                            {new Date(
+                              Math.round(user?.createdAt / 1000)
+                            ).toDateString()}
                           </td>
                           <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
                             {user?.email}
@@ -131,7 +130,6 @@ const Liste = () => {
           </div>
         </div>
       </div>
-     
     </div>
   );
 };

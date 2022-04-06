@@ -3,5 +3,7 @@ query GetAllProducts {
     id
     name
     description
+    image
+    price
   }
 }
