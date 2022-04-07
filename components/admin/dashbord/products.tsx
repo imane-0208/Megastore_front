@@ -3,14 +3,15 @@ import { useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import Link from "next/link";
+import { DataGrid } from "@mui/x-data-grid";
 
 export function Products() {
   const { data, loading } = useQuery(GetAllProductsDashboardDocument);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    console.log(data);
-    // setProducts(data);
+    // console.log(data);
+    setProducts(data);
   }, [data]);
 
   return (
@@ -250,9 +251,8 @@ export function Products() {
               </svg>
             </a>
             <span className="text-sm font-normal text-gray-500">
-              Showing <span className="text-gray-900 font-semibold">1-20</span>{" "}
-              of
-              <span className="text-gray-900 font-semibold">2290</span>
+              Showing <span className="text-gray-900 font-semibold">x</span> of
+              <span className="text-gray-900 font-semibold">y</span>
             </span>
           </div>
           <div className="flex items-center space-x-3">
@@ -294,7 +294,10 @@ export function Products() {
             </a>
           </div>
         </div>
+
+        {/* ////// */}
       </div>
+
       <p className="text-center text-sm text-gray-500 my-10">
         &copy; 2022{" "}
         <Link

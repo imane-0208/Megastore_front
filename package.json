@@ -19,6 +19,7 @@
     "@mui/icons-material": "^5.5.1",
     "@mui/material": "^5.5.0",
     "@mui/styles": "^5.5.1",
+    "@mui/x-data-grid": "^5.8.0",
     "apollo-boost": "^0.4.9",
     "apollo-upload-client": "^17.0.0",
     "draft-js": "^0.11.7",

@@ -30,6 +30,7 @@ import Carts from "@/components/admin/dashbord/carts";
 import { PrimaryBtn } from "@/components/PrimaryBtn";
 import ListUser from "@/components/admin/dashbord/listUser";
 import Product from "@/components/admin/dashbord/products";
+import DataTable from "@/components/admin/dashbord/dataTable";
 
 const drawerWidth = 240;
 
@@ -134,13 +135,12 @@ const Products: NextPage = () => {
             <MenuIcon />
           </IconButton>
           <div className="w-full flex justify-between ">
-
-          <Typography variant="h6" noWrap component="div">
-            Dashboard
-          </Typography>
-          <PrimaryBtn className="text-blue-500 hover:bg-blue-200">
-            logout
-          </PrimaryBtn>
+            <Typography variant="h6" noWrap component="div">
+              Dashboard
+            </Typography>
+            <PrimaryBtn className="text-blue-500 hover:bg-blue-200">
+              logout
+            </PrimaryBtn>
           </div>
         </Toolbar>
       </AppBar>
@@ -214,6 +214,7 @@ const Products: NextPage = () => {
         {table === "ListUser" && <ListUser />}
         {table === "Product" && <Product />}
         <Product />
+        <DataTable />
       </Box>
     </Box>
   );
