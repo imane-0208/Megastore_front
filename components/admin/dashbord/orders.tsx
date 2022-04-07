@@ -15,6 +15,9 @@ const Orders = () => {
   return (
     <div className=" py-2 overflow-x-auto max-w-[100%] ">
       <div className="align-middle rounded-tl-lg rounded-tr-lg inline-block w-full py-4 overflow-hidden bg-white shadow-lg px-12">
+        <h1 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-4">
+          All Orders
+        </h1>
         <div className="flex justify-between">
           <div className="inline-flex border rounded w-7/12 px-2 lg:px-6 h-12 bg-transparent">
             <div className="flex flex-wrap items-stretch w-full h-full mb-6 relative">
