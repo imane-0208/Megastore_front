@@ -117,6 +117,8 @@ const Products: NextPage = () => {
     setOpen(false);
   };
 
+
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -213,8 +215,6 @@ const Products: NextPage = () => {
         {table === "Carts" && <Carts />}
         {table === "ListUser" && <ListUser />}
         {table === "Product" && <Product />}
-        <Product />
-        <DataTable />
       </Box>
     </Box>
   );

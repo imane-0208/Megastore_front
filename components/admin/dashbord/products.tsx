@@ -8,11 +8,30 @@ import { DataGrid } from "@mui/x-data-grid";
 export function Products() {
   const { data, loading } = useQuery(GetAllProductsDashboardDocument);
   const [products, setProducts] = useState([]);
+  const [pagination, setPagination] = useState(0);
 
   useEffect(() => {
     // console.log(data);
-    setProducts(data);
+    setProducts(data?.getAllProducts);
   }, [data]);
+
+  const [paginationedProducts, setPaginationedProducts] = useState([]);
+
+  useEffect(() => {
+    if (products) {
+      setPaginationedProducts(products?.slice(pagination, pagination + 5));
+    }
+  }, [products, pagination]);
+
+  //filtre function of product by name
+
+  const hundleFliter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e?.target.value;
+    const filteredProducts = products?.filter((product) => {
+      return product?.name?.toLowerCase().includes(value.toLowerCase());
+    });
+      setPaginationedProducts(filteredProducts);
+  };
 
   return (
     <div className="w-full gap-4">
@@ -27,6 +46,7 @@ export function Products() {
             </label>
             <div className="mt-1 relative sm:w-64 xl:w-96">
               <input
+                onChange={(e)=>hundleFliter(e)}
                 type="text"
                 name="email"
                 id="products-search"
@@ -102,7 +122,7 @@ export function Products() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {data?.getAllProducts?.map((product, i) => (
+            {paginationedProducts?.map((product, i) => (
               <tr key={i} className="hover:bg-gray-100">
                 <td className="p-4 w-4">
                   <div className="flex items-center">
@@ -117,15 +137,6 @@ export function Products() {
                     </label>
                   </div>
                 </td>
-                {/* <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
-                  <div className="text-base font-semibold text-gray-900">
-                    {" "}
-                    #{i + 1}
-                  </div>
-                  <div className="text-sm font-normal text-gray-500">
-                    {product?.name}
-                  </div>
-                </td> */}
 
                 <div className="flex items-center text-sm">
                   <div className="relative w-8 h-8 mr-3 rounded-full md:block">
@@ -140,6 +151,7 @@ export function Products() {
                       aria-hidden="true"
                     ></div>
                   </div>
+
                   <div>
                     <Link
                       href="/product/[uuid]"
@@ -216,8 +228,8 @@ export function Products() {
 
         <div className="bg-white sticky sm:flex items-center w-full sm:justify-between bottom-0 right-0 border-t border-gray-200 p-4 mt-1">
           <div className="flex items-center mb-4 sm:mb-0">
-            <a
-              href="#"
+            <button
+              onClick={() => setPagination(0)}
               className="text-gray-500 hover:text-gray-900 cursor-pointer p-1 hover:bg-gray-100 rounded inline-flex justify-center"
             >
               <svg
@@ -232,9 +244,13 @@ export function Products() {
                   clip-rule="evenodd"
                 ></path>
               </svg>
-            </a>
-            <a
-              href="#"
+            </button>
+            <button
+              onClick={() => {
+                if (products) {
+                  setPagination(~~(products?.length / 5) * 5);
+                }
+              }}
               className="text-gray-500 hover:text-gray-900 cursor-pointer p-1 hover:bg-gray-100 rounded inline-flex justify-center mr-2"
             >
               <svg
@@ -249,15 +265,25 @@ export function Products() {
                   clip-rule="evenodd"
                 ></path>
               </svg>
-            </a>
+            </button>
             <span className="text-sm font-normal text-gray-500">
-              Showing <span className="text-gray-900 font-semibold">x</span> of
-              <span className="text-gray-900 font-semibold">y</span>
+              Showing{" "}
+              <span className="text-gray-900 font-semibold">
+                {pagination + paginationedProducts?.length}
+              </span>{" "}
+              of
+              <span className="text-gray-900 font-semibold">
+                {products?.length}
+              </span>
             </span>
           </div>
           <div className="flex items-center space-x-3">
-            <a
-              href="#"
+            <button
+              onClick={() => {
+                if (pagination != 0) {
+                  setPagination(pagination - 5);
+                }
+              }}
               className="flex-1 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center"
             >
               <svg
@@ -273,9 +299,16 @@ export function Products() {
                 ></path>
               </svg>
               Previous
-            </a>
-            <a
-              href="#"
+            </button>
+            <button
+              onClick={() => {
+                if (
+                  pagination + paginationedProducts?.length <
+                  products?.length
+                ) {
+                  setPagination(pagination + 5);
+                }
+              }}
               className="flex-1 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center"
             >
               Next
@@ -291,7 +324,7 @@ export function Products() {
                   clip-rule="evenodd"
                 ></path>
               </svg>
-            </a>
+            </button>
           </div>
         </div>
 
